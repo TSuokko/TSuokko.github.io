@@ -30,8 +30,47 @@ export function backpackDimensions(load) {
 }
 
 export function itemDimensions(load) {
-  const closestPair = factorPairs(load).at(-1);
-  return { width: closestPair.height, height: closestPair.width };
+  const { width, height } = itemFootprint(load);
+  return { width, height };
+}
+
+function itemShapeVariants(load) {
+  const pairs = factorPairs(load);
+  if (pairs.length === 1 && load > 2) {
+    return Array.from({ length: Math.ceil(load / 2) }, (_, index) => {
+      const width = Math.ceil(load / 2) - index;
+      return { width, height: Math.ceil(load / width) };
+    });
+  }
+
+  return [...pairs].reverse().map((pair) => ({ width: pair.height, height: pair.width }));
+}
+
+export function itemShapeCount(load) {
+  return itemShapeVariants(load).length;
+}
+
+export function itemFootprint(load, rotated = false, flipped = false, shapeIndex = 0) {
+  const variants = itemShapeVariants(load);
+  const variant = variants[((shapeIndex % variants.length) + variants.length) % variants.length];
+  let { width, height } = variant;
+  let cells = Array.from({ length: load }, (_, index) => ({
+    row: Math.floor(index / width),
+    column: index % width,
+  }));
+
+  if (flipped) {
+    cells = cells.map((cell) => ({ row: cell.row, column: width - 1 - cell.column }));
+  }
+  if (!rotated) return { width, height, cells };
+
+  cells = cells.map((cell) => ({ row: cell.column, column: height - 1 - cell.row }));
+  [width, height] = [height, width];
+  return {
+    width,
+    height,
+    cells,
+  };
 }
 
 export function createInventory(strength = 3) {
@@ -50,27 +89,32 @@ export function placementFits(inventory, candidate, ignoredInstanceId = null) {
     return false;
   }
 
-  return inventory.placements.every((placed) => {
-    if (placed.instanceId === ignoredInstanceId) return true;
-    return (
-      candidate.column + candidate.width <= placed.column ||
-      candidate.column >= placed.column + placed.width ||
-      candidate.row + candidate.height <= placed.row ||
-      candidate.row >= placed.row + placed.height
-    );
-  });
+  const occupiedCells = new Set();
+  for (const placed of inventory.placements) {
+    if (placed.instanceId === ignoredInstanceId) continue;
+    for (const cell of placed.cells) {
+      occupiedCells.add(`${placed.row + cell.row}:${placed.column + cell.column}`);
+    }
+  }
+
+  return candidate.cells.every((cell) => (
+    !occupiedCells.has(`${candidate.row + cell.row}:${candidate.column + cell.column}`)
+  ));
 }
 
-export function placeItem(inventory, item, row, column, rotated = false, instanceId = crypto.randomUUID()) {
-  const base = itemDimensions(item.load);
+export function placeItem(inventory, item, row, column, rotated = false, instanceId = crypto.randomUUID(), flipped = false, shapeIndex = 0) {
+  const footprint = itemFootprint(item.load, rotated, flipped, shapeIndex);
   const candidate = {
     instanceId,
     itemId: item.id,
     row,
     column,
-    width: rotated ? base.height : base.width,
-    height: rotated ? base.width : base.height,
+    width: footprint.width,
+    height: footprint.height,
+    cells: footprint.cells,
     rotated,
+    flipped,
+    shapeIndex,
   };
 
   if (!placementFits(inventory, candidate)) return null;
@@ -98,6 +142,9 @@ export function rotateItem(inventory, instanceId) {
     ...current,
     width: current.height,
     height: current.width,
+    cells: current.rotated
+      ? current.cells.map((cell) => ({ row: current.width - 1 - cell.column, column: cell.row }))
+      : current.cells.map((cell) => ({ row: cell.column, column: current.height - 1 - cell.row })),
     rotated: !current.rotated,
   };
   if (!placementFits(inventory, candidate, instanceId)) return null;
@@ -116,5 +163,34 @@ export function removeItem(inventory, instanceId) {
 }
 
 export function occupiedLoad(inventory) {
-  return inventory.placements.reduce((total, item) => total + item.width * item.height, 0);
+  return inventory.placements.reduce((total, item) => total + item.cells.length, 0);
+}
+
+export function flipItem(inventory, instanceId, item) {
+  const current = inventory.placements.find((placement) => placement.instanceId === instanceId);
+  if (!current) return null;
+
+  const footprint = itemFootprint(item.load, current.rotated, !current.flipped, current.shapeIndex);
+  const candidate = { ...current, ...footprint, flipped: !current.flipped };
+  if (!placementFits(inventory, candidate, instanceId)) return null;
+
+  return {
+    ...inventory,
+    placements: inventory.placements.map((placement) => placement.instanceId === instanceId ? candidate : placement),
+  };
+}
+
+export function cycleItemShape(inventory, instanceId, item) {
+  const current = inventory.placements.find((placement) => placement.instanceId === instanceId);
+  if (!current) return null;
+
+  const shapeIndex = (current.shapeIndex + 1) % itemShapeCount(item.load);
+  const footprint = itemFootprint(item.load, current.rotated, current.flipped, shapeIndex);
+  const candidate = { ...current, ...footprint, shapeIndex };
+  if (!placementFits(inventory, candidate, instanceId)) return null;
+
+  return {
+    ...inventory,
+    placements: inventory.placements.map((placement) => placement.instanceId === instanceId ? candidate : placement),
+  };
 }

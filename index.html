@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#242719">
     <meta name="description" content="A load-based spatial inventory minigame.">
     <title>Field Loadout</title>
-    <link rel="stylesheet" href="./style.css?v=5">
+    <link rel="stylesheet" href="./style.css?v=10">
   </head>
   <body>
     <main class="app-shell">
@@ -26,7 +26,11 @@
           </label>
           <div class="meter" id="strength-load"><span>Capacity</span><strong id="capacity">30</strong></div>
           <div class="meter"><span>Occupied</span><strong id="occupied">0 / 30</strong></div>
+          <div class="meter save-meter"><span>Memory</span><strong id="save-status">Local</strong></div>
+          <button class="icon-button" id="export-save" type="button" title="Export inventory save" aria-label="Export inventory save">⇩</button>
+          <button class="icon-button" id="import-save" type="button" title="Import inventory save" aria-label="Import inventory save">⇧</button>
           <button class="icon-button" id="reset" type="button" title="Reset backpack" aria-label="Reset backpack">↺</button>
+          <input class="visually-hidden" id="save-file" type="file" accept=".json,application/json">
         </div>
       </header>
 
@@ -56,6 +60,12 @@
             <button class="tool-button" id="rotate" type="button" disabled title="Rotate selected item">
               <span aria-hidden="true">↻</span><span>Rotate</span>
             </button>
+            <button class="tool-button" id="flip" type="button" disabled title="Mirror selected item">
+              <span aria-hidden="true">⇋</span><span>Flip</span>
+            </button>
+            <button class="tool-button" id="shape" type="button" disabled title="Cycle selected item shape">
+              <span aria-hidden="true">▦</span><span>Shape</span>
+            </button>
             <button class="tool-button danger" id="remove" type="button" disabled title="Remove selected item">
               <span aria-hidden="true">×</span><span>Remove</span>
             </button>
@@ -76,12 +86,12 @@
             <div class="case-hardware top-right" aria-hidden="true"></div>
             <div class="inventory-grid" id="inventory-grid" aria-label="Backpack placement grid"></div>
           </div>
-          <p class="pack-hint">Drag an item or select it, then choose a grid cell. Press R to rotate.</p>
+          <p class="pack-hint">Drag an item or select it, then choose a grid cell. R rotates, F flips, and S changes shape.</p>
         </section>
       </section>
     </main>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script type="module" src="./js/main.js?v=4"></script>
+    <script type="module" src="./js/main.js?v=9"></script>
   </body>
 </html>
