@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#242719">
+    <meta name="description" content="A load-based spatial inventory minigame.">
+    <title>Field Loadout</title>
+    <link rel="stylesheet" href="./style.css?v=5">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">FL</span>
+          <div>
+            <h1>Field Loadout</h1>
+            <p>Pack deliberately. Waste no space.</p>
+          </div>
+        </div>
+
+        <div class="status-strip">
+          <label class="strength-control" for="strength">
+            <span>Strength</span>
+            <select id="strength" aria-describedby="strength-load"></select>
+          </label>
+          <div class="meter" id="strength-load"><span>Capacity</span><strong id="capacity">30</strong></div>
+          <div class="meter"><span>Occupied</span><strong id="occupied">0 / 30</strong></div>
+          <button class="icon-button" id="reset" type="button" title="Reset backpack" aria-label="Reset backpack">↺</button>
+        </div>
+      </header>
+
+      <section class="workspace" aria-label="Inventory manager">
+        <aside class="catalog-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Supply cache</p>
+              <h2>Available items</h2>
+            </div>
+            <span class="result-count" id="result-count"></span>
+          </div>
+
+          <label class="search-field" for="item-search">
+            <span class="visually-hidden">Search items</span>
+            <span aria-hidden="true">⌕</span>
+            <input id="item-search" type="search" placeholder="Search name or category…" autocomplete="off">
+          </label>
+          <div class="catalog-list" id="catalog-list" role="listbox" aria-label="Available items"></div>
+
+          <div class="selection-tools" aria-label="Selected item controls">
+            <div class="footprint-preview" id="footprint-preview" aria-label="Selected item footprint"></div>
+            <div class="selection-copy">
+              <span id="selection-label">Nothing selected</span>
+              <strong id="selection-size">Choose an item</strong>
+            </div>
+            <button class="tool-button" id="rotate" type="button" disabled title="Rotate selected item">
+              <span aria-hidden="true">↻</span><span>Rotate</span>
+            </button>
+            <button class="tool-button danger" id="remove" type="button" disabled title="Remove selected item">
+              <span aria-hidden="true">×</span><span>Remove</span>
+            </button>
+          </div>
+        </aside>
+
+        <section class="pack-panel" aria-labelledby="pack-title">
+          <div class="pack-heading">
+            <div>
+              <p class="eyebrow">Active pack</p>
+              <h2 id="pack-title">Backpack grid</h2>
+            </div>
+            <div class="dimensions" id="dimensions"></div>
+          </div>
+
+          <div class="case-frame">
+            <div class="case-hardware top-left" aria-hidden="true"></div>
+            <div class="case-hardware top-right" aria-hidden="true"></div>
+            <div class="inventory-grid" id="inventory-grid" aria-label="Backpack placement grid"></div>
+          </div>
+          <p class="pack-hint">Drag an item or select it, then choose a grid cell. Press R to rotate.</p>
+        </section>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script type="module" src="./js/main.js?v=4"></script>
+  </body>
+</html>
