@@ -400,8 +400,10 @@ elements.catalog.addEventListener("click", (event) => {
 });
 
 elements.catalog.addEventListener("pointerdown", (event) => {
-  const grip = event.target.closest(".item-swatch");
   const entry = event.target.closest("[data-item-id]");
+  if(entry && document.activeElement === elements.search) elements.search.blur();
+  const grip = event.target.closest(".item-swatch");
+  
   if (!grip || !entry) return;
   const sameItem = selectedCatalogId === entry.dataset.itemId;
   const rotated = sameItem && pendingRotation;
