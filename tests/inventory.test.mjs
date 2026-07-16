@@ -13,6 +13,7 @@ import {
   occupiedLoad,
   placeItem,
   removeItem,
+  renameItem,
   rotateItem,
 } from "../js/inventory.js";
 
@@ -69,6 +70,7 @@ test("invalid moves preserve prior state and valid moves retain identity", () =>
     rotated: false,
     flipped: false,
     shapeIndex: 0,
+    customName: null,
   });
   assert.equal(moveItem(inventory, "one", 2, 0).placements[0].row, 2);
 });
@@ -130,4 +132,14 @@ test("shape cycles factor pairs for composites and folded widths for primes", ()
   const prime = placeItem(createInventory(3), item("prime", 7), 0, 0, false, "two");
   const nextPrime = cycleItemShape(prime, "two", item("prime", 7));
   assert.deepEqual({ width: nextPrime.placements[0].width, height: nextPrime.placements[0].height }, { width: 3, height: 3 });
+});
+
+test("rename changes only the selected item instance", () => {
+  const first = placeItem(createInventory(3), item("knife", 2), 0, 0, false, "one");
+  const inventory = placeItem(first, item("knife", 2), 1, 0, false, "two");
+  const renamed = renameItem(inventory, "one", "Old Reliable");
+
+  assert.equal(renamed.placements[0].customName, "Old Reliable");
+  assert.equal(renamed.placements[1].customName, null);
+  assert.equal(renameItem(inventory, "missing", "Name"), null);
 });

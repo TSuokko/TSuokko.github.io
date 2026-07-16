@@ -10,10 +10,11 @@ import {
   placeItem,
   placementFits,
   removeItem,
+  renameItem,
   rotateItem,
 } from "./inventory.js";
 import { categoryColor, ITEMS, matchesItemSearch, meetsItemRequirement } from "./items.js";
-import { createSaveData, MAX_SAVE_BYTES, parseInventorySave, serializeInventory } from "./persistence.js";
+import { createSaveData, MAX_CUSTOM_NAME_LENGTH, MAX_SAVE_BYTES, parseInventorySave, serializeInventory } from "./persistence.js";
 
 const STORAGE_KEY = "field-loadout.inventory.v1";
 
@@ -35,10 +36,15 @@ const elements = {
   rotate: document.querySelector("#rotate"),
   flip: document.querySelector("#flip"),
   shape: document.querySelector("#shape"),
+  rename: document.querySelector("#rename"),
   remove: document.querySelector("#remove"),
   dimensions: document.querySelector("#dimensions"),
   grid: document.querySelector("#inventory-grid"),
   toast: document.querySelector("#toast"),
+  renameDialog: document.querySelector("#rename-dialog"),
+  renameForm: document.querySelector("#rename-form"),
+  renameInput: document.querySelector("#rename-input"),
+  renameCancel: document.querySelector("#rename-cancel"),
 };
 
 let inventory = createInventory(3);
@@ -87,6 +93,10 @@ function catalogItem(id) {
 
 function selectedPlacement() {
   return inventory.placements.find((item) => item.instanceId === selectedInstanceId);
+}
+
+function placementName(placement, item) {
+  return placement.customName ?? item.name;
 }
 
 function clearPendingTransform() {
@@ -168,6 +178,7 @@ function renderCatalog() {
 
 function placementElement(placement) {
   const item = catalogItem(placement.itemId);
+  const displayName = placementName(placement, item);
   const itemColor = categoryColor(item.category);
   const requirementMet = meetsItemRequirement(item, inventory.strength);
   const button = document.createElement("button");
@@ -180,14 +191,14 @@ function placementElement(placement) {
   button.style.setProperty("--shape-columns", placement.width);
   button.style.setProperty("--shape-rows", placement.height);
   button.style.setProperty("--item-color", itemColor);
-  button.title = `${item.name}, Load ${item.load}, requires Strength ${item.requirement}`;
-  button.setAttribute("aria-label", `${item.name}, Load ${item.load}, requires Strength ${item.requirement}${requirementMet ? "" : ", requirement not met"}, at row ${placement.row + 1}, column ${placement.column + 1}`);
+  button.title = `${displayName}, Load ${item.load}, requires Strength ${item.requirement}`;
+  button.setAttribute("aria-label", `${displayName}, Load ${item.load}, requires Strength ${item.requirement}${requirementMet ? "" : ", requirement not met"}, at row ${placement.row + 1}, column ${placement.column + 1}`);
   if (selectedInstanceId === placement.instanceId) button.classList.add("selected");
   if (!requirementMet) button.classList.add("requirement-unmet");
   appendShapeCells(button, placement.cells);
   const name = document.createElement("span");
   name.className = "item-name";
-  name.textContent = item.name;
+  name.textContent = displayName;
   const load = document.createElement("small");
   load.textContent = item.load;
   button.append(name, load);
@@ -241,6 +252,7 @@ function renderSelection() {
   const placement = selectedPlacement();
   const item = placement ? catalogItem(placement.itemId) : catalogItem(selectedCatalogId);
   elements.remove.disabled = !placement;
+  elements.rename.disabled = !placement;
   elements.rotate.disabled = !item;
   elements.shape.disabled = !item || itemShapeCount(item.load) <= 1;
   elements.footprint.replaceChildren();
@@ -262,7 +274,7 @@ function renderSelection() {
   elements.footprint.style.setProperty("--preview-color", categoryColor(item.category));
   appendShapeCells(elements.footprint, footprint.cells);
   elements.selectionLabel.textContent = placement ? "Packed item" : "Ready to place";
-  elements.selectionSize.textContent = `${item.name} · ${footprint.width}×${footprint.height}`;
+  elements.selectionSize.textContent = `${placement ? placementName(placement, item) : item.name} · ${footprint.width}×${footprint.height}`;
 }
 
 function renderStatus() {
@@ -401,9 +413,9 @@ elements.catalog.addEventListener("click", (event) => {
 
 elements.catalog.addEventListener("pointerdown", (event) => {
   const entry = event.target.closest("[data-item-id]");
-  if(entry && document.activeElement === elements.search) elements.search.blur();
+  if (entry && document.activeElement === elements.search) elements.search.blur();
+
   const grip = event.target.closest(".item-swatch");
-  
   if (!grip || !entry) return;
   const sameItem = selectedCatalogId === entry.dataset.itemId;
   const rotated = sameItem && pendingRotation;
@@ -466,7 +478,7 @@ elements.grid.addEventListener("pointerdown", (event) => {
     event,
     placed,
     { type: "move", instanceId: placement.instanceId, rotated: placement.rotated },
-    catalogItem(placement.itemId).name,
+    placementName(placement, catalogItem(placement.itemId)),
   );
 });
 
@@ -576,6 +588,37 @@ elements.remove.addEventListener("click", () => {
   persistInventory();
   announce("Item removed.");
   renderAll();
+});
+
+elements.rename.addEventListener("click", () => {
+  const placement = selectedPlacement();
+  if (!placement) return;
+  elements.renameInput.value = placement.customName ?? "";
+  elements.renameDialog.showModal();
+  elements.renameInput.focus();
+  elements.renameInput.select();
+});
+
+elements.renameCancel.addEventListener("click", () => elements.renameDialog.close("cancel"));
+
+elements.renameForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const placement = selectedPlacement();
+  if (!placement) {
+    elements.renameDialog.close();
+    return;
+  }
+
+  const value = elements.renameInput.value.trim();
+  if (value.length > MAX_CUSTOM_NAME_LENGTH || /[\u0000-\u001f\u007f]/.test(value)) {
+    announce(`Names must be ${MAX_CUSTOM_NAME_LENGTH} characters or fewer.`, true);
+    return;
+  }
+  inventory = renameItem(inventory, placement.instanceId, value || null);
+  persistInventory();
+  elements.renameDialog.close("save");
+  renderAll();
+  announce(value ? "Item renamed." : "Default item name restored.");
 });
 
 elements.search.addEventListener("input", renderCatalog);

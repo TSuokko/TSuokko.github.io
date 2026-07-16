@@ -65,6 +65,9 @@
             <button class="tool-button" id="shape" type="button" disabled title="Cycle selected item shape">
               <span aria-hidden="true">▦</span><span>Shape</span>
             </button>
+            <button class="tool-button" id="rename" type="button" disabled title="Rename selected item">
+              <span aria-hidden="true">✎</span><span>Rename</span>
+            </button>
             <button class="tool-button danger" id="remove" type="button" disabled title="Remove selected item">
               <span aria-hidden="true">×</span><span>Remove</span>
             </button>
@@ -90,7 +93,20 @@
       </section>
     </main>
 
+    <dialog class="rename-dialog" id="rename-dialog" aria-labelledby="rename-title">
+      <form method="dialog" id="rename-form">
+        <p class="eyebrow">Item designation</p>
+        <h2 id="rename-title">Rename item</h2>
+        <label for="rename-input">Custom name</label>
+        <input id="rename-input" name="customName" type="text" maxlength="40" autocomplete="off" placeholder="Leave empty to restore default">
+        <div class="dialog-actions">
+          <button class="tool-button" value="cancel" type="button" id="rename-cancel">Cancel</button>
+          <button class="tool-button" value="save" type="submit">Save</button>
+        </div>
+      </form>
+    </dialog>
+
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script type="module" src="./js/main.js?v=9"></script>
+    <script type="module" src="./js/main.js?v=11"></script>
   </body>
 </html>

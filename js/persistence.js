@@ -1,7 +1,8 @@
 import { createInventory, itemShapeCount, placeItem } from "./inventory.js";
 
-export const SAVE_VERSION = 2;
+export const SAVE_VERSION = 3;
 export const MAX_SAVE_BYTES = 100_000;
+export const MAX_CUSTOM_NAME_LENGTH = 40;
 const MAX_PLACEMENTS = 100;
 const INSTANCE_ID_PATTERN = /^[a-zA-Z0-9_-]{1,64}$/;
 
@@ -19,7 +20,7 @@ export function createSaveData(inventory, savedAt = new Date().toISOString()) {
     version: SAVE_VERSION,
     strength: inventory.strength,
     savedAt,
-    placements: inventory.placements.map(({ instanceId, itemId, row, column, rotated, flipped, shapeIndex }) => ({
+    placements: inventory.placements.map(({ instanceId, itemId, row, column, rotated, flipped, shapeIndex, customName }) => ({
       instanceId,
       itemId,
       row,
@@ -27,6 +28,7 @@ export function createSaveData(inventory, savedAt = new Date().toISOString()) {
       rotated,
       flipped,
       shapeIndex,
+      customName,
     })),
   };
 }
@@ -50,7 +52,7 @@ export function parseInventorySave(text, catalog) {
   if (!isRecord(data) || !hasExactKeys(data, ["version", "strength", "savedAt", "placements"])) {
     throw new Error("Save file has an invalid structure.");
   }
-  if (data.version !== 1 && data.version !== SAVE_VERSION) throw new Error("Save file version is not supported.");
+  if (![1, 2, SAVE_VERSION].includes(data.version)) throw new Error("Save file version is not supported.");
   if (!Number.isInteger(data.strength) || data.strength < 1 || data.strength > 10) {
     throw new Error("Save file contains an invalid Strength score.");
   }
@@ -68,7 +70,9 @@ export function parseInventorySave(text, catalog) {
   for (const placement of data.placements) {
     const placementKeys = data.version === 1
       ? ["instanceId", "itemId", "row", "column", "rotated"]
-      : ["instanceId", "itemId", "row", "column", "rotated", "flipped", "shapeIndex"];
+      : data.version === 2
+        ? ["instanceId", "itemId", "row", "column", "rotated", "flipped", "shapeIndex"]
+        : ["instanceId", "itemId", "row", "column", "rotated", "flipped", "shapeIndex", "customName"];
     if (!isRecord(placement) || !hasExactKeys(placement, placementKeys)) {
       throw new Error("Save file contains an invalid placement.");
     }
@@ -85,8 +89,18 @@ export function parseInventorySave(text, catalog) {
     const item = itemsById.get(placement.itemId);
     const flipped = data.version === 1 ? false : placement.flipped;
     const shapeIndex = data.version === 1 ? 0 : placement.shapeIndex;
+    const customName = data.version < 3 ? null : placement.customName;
     if (typeof flipped !== "boolean" || !Number.isInteger(shapeIndex) || shapeIndex < 0 || shapeIndex >= itemShapeCount(item.load)) {
       throw new Error("Save file contains an invalid item transform.");
+    }
+    if (customName !== null && (
+      typeof customName !== "string" ||
+      customName.length < 1 ||
+      customName.length > MAX_CUSTOM_NAME_LENGTH ||
+      customName.trim() !== customName ||
+      /[\u0000-\u001f\u007f]/.test(customName)
+    )) {
+      throw new Error("Save file contains an invalid custom name.");
     }
 
     const next = placeItem(
@@ -98,6 +112,7 @@ export function parseInventorySave(text, catalog) {
       placement.instanceId,
       flipped,
       shapeIndex,
+      customName,
     );
     if (!next) throw new Error("Save file contains overlapping or out-of-bounds items.");
     inventory = next;
