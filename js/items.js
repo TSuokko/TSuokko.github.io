@@ -17,13 +17,14 @@ const DEFAULT_CATEGORY_COLOR = "#718071";
 
 export const ITEMS = [
   //armor
+  //note, armor load is based on if the user is wearing the armor 
   { id: "cloth-armor", name: "Cloth Armor", load: 2, requirement: 1, category: "Armor" },
   { id: "leather-armor", name: "Leather Armor", load: 7, requirement: 1, category: "Armor" },
   { id: "metal-armor", name: "Metal Armor", load: 10, requirement: 5, category: "Armor" },
   { id: "multi-layer-armor", name: "Multi-layer Armor", load: 20, requirement: 3, category: "Armor"},
   { id: "ballistic-armor", name: "Ballistic Armor", load: 5, requirement: 3, category: "Armor" },
   { id: "steel-armor", name: "Steel Armor", load: 25, requirement: 6, category: "Armor" },
-  { id: "power-armor", name: "Power Armor", load: 100, requirement: 8, category: "Armor" },
+  { id: "clothing", name: "Clothes", load: 2, requirement: 1, category: "Armor" },
   //melee
   { id: "shiv", name: "Shiv", load: 1, requirement: 1, category: "Melee"},
   { id: "knife", name: "Knife", load: 2, requirement: 2, category: "Melee"},
@@ -45,7 +46,26 @@ export const ITEMS = [
   { id: "trap-fist", name: "Trap Fist", load: 20, requirement: 8, category: "Melee"},
   { id: "power-fist", name: "Power Fist", load: 12, requirement: 6, category: "Melee"},
   //ammo
-  { id: "ammo", name: "10x Ammo", load: 1, requirement: 1, category: "Ammo" },
+  { id: "357ammo", name: ".357 Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "50ammo", name: ".50 Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "308ammo", name: ".308 Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "44ammo", name: ".44 Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "45ammo", name: ".45 Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "10mmammo", name: "10mm Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "9mmammo", name: "9mm Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "12g-ammo", name: "12 gauge Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "127mmammo", name: "12.7mm Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "556ammo", name: "5.56mm Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "Flareammo", name: "Flare Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "ECammo", name: "Energy Cell Ammo 30x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "MFammo", name: "Microfusion Ammo 30x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "cryo-ammo", name: "Cryo Cell Ammo 30x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "Fusion-core", name: "Fusion Core", load: 1, requirement: 1, category: "Ammo" },
+  { id: "2mmEC-ammo", name: "2mm EC ammo 30x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "Gamme-cell-ammo", name: "Gamma Cell ammo 30x", load: 1, requirement: 1, category: "Ammo" },
+  { id: "Fuel", name: "Fuel", load: 20, requirement: 1, category: "Ammo" },
+  { id: "Mini-nuke", name: "Mini Nuke", load: 12, requirement: 1, category: "Ammo" },
+  { id: "Missile", name: "Missile", load: 10, requirement: 1, category: "Ammo" },
   //guns
   { id: "9mm-pistol", name: "9mm Pistol", load: 5, requirement: 3, category: "Guns" },
   { id: "10mm-pistol", name: "10mm Pistol", load: 6, requirement: 4, category: "Guns" },
@@ -108,18 +128,16 @@ export const ITEMS = [
   { id: "rope", name: "Rope", load: 8, requirement: 1, category: "Gear"},
   { id: "sleeping-bag", name: "Sleeping Bag", load: 10, requirement: 1, category: "Gear"},
   { id: "weapon-repair-kit", name: "Weapon Repair Kit", load: 10, requirement: 1, category: "Gear"},
-  //misc
-  { id: "computer", name: "Computer Boy", load: 4, requirement: 1, category: "Misc"},
-  { id: "stealth-boy", name: "Stealth Boy", load: 3, requirement: 1, category: "Misc"},
-  { id: "two-way-radio", name: "Two-Way Radio", load: 2, requirement: 1, category: "Misc"},
-  { id: "book", name: "Book", load: 1, requirement: 1, category: "Misc"},
   //food
   { id: "canned-food", name: "Canned Food", load: 2, requirement: 1, category: "Food"},
   { id: "candy", name: "Candy", load: 1, requirement: 1, category: "Food"},
   { id: "boxed-food", name: "Boxed Food", load: 4, requirement: 1, category: "Food"},
   { id: "vegetables", name: "Vegetable", load: 1, requirement: 1, category: "Food"},
   { id: "meat", name: "Meat", load: 3, requirement: 1, category: "Food"},
+  { id: "steak", name: "Steak", load: 6, requirement: 1, category: "Food"},
   { id: "drink", name: "Drink", load: 2, requirement: 1, category: "Food"},
+  { id: "alcohol", name: "Alcohol", load: 2, requirement: 1, category: "Food"},
+  { id: "stew", name: "Stew", load: 8, requirement: 1, category: "Food"},
   //meds
   { id: "antibiotics", name: "Antibiotics", load: 1, requirement: 1, category: "Meds"},
   { id: "doctors-bag", name: "Doctor's Bag", load: 15, requirement: 1, category: "Meds"},
@@ -130,8 +148,22 @@ export const ITEMS = [
   { id: "robot-fix-kit", name: "Robot Fix Kit", load: 4, requirement: 1, category: "Meds"},
   { id: "chem", name: "Chem (Bottle)", load: 1, requirement: 1, category: "Meds"},
   { id: "chems", name: "Chems (10x Pills)", load: 1, requirement: 1, category: "Meds"},
-  { id: "overclock-program", name: "Overclock Program 10x", load: 1, requirement: 1, category: "Meds"}
-
+  { id: "overclock-program", name: "Overclock Program 10x", load: 1, requirement: 1, category: "Meds"},
+  //misc
+  { id: "computer", name: "Computer Boy", load: 4, requirement: 1, category: "Misc"},
+  { id: "stealth-boy", name: "Stealth Boy", load: 3, requirement: 1, category: "Misc"},
+  { id: "two-way-radio", name: "Two-Way Radio", load: 2, requirement: 1, category: "Misc"},
+  { id: "book", name: "Book", load: 1, requirement: 1, category: "Misc"},
+    { id: "Load1", name: "Other1", load: 1, requirement: 1, category: "Misc"},
+    { id: "Load2", name: "Other2", load: 1, requirement: 1, category: "Misc"},
+    { id: "Load3", name: "Other3", load: 1, requirement: 1, category: "Misc"},
+    { id: "Load4", name: "Other4", load: 1, requirement: 1, category: "Misc"},
+    { id: "Load5", name: "Other5", load: 1, requirement: 1, category: "Misc"},
+    { id: "Load6", name: "Other6", load: 1, requirement: 1, category: "Misc"},
+    { id: "Load7", name: "Other7", load: 1, requirement: 1, category: "Misc"},
+    { id: "Load8", name: "Other8", load: 1, requirement: 1, category: "Misc"},
+    { id: "Load9", name: "Other9", load: 1, requirement: 1, category: "Misc"},
+    { id: "Load10", name: "Other10", load: 1, requirement: 1, category: "Misc"}
 ];
 
 export function categoryColor(category) {
