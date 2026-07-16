@@ -41,19 +41,19 @@ Strength ranges from 1 to 10 and produces 10 to 100 total Load. Backpack dimensi
 - Drag an item from the supply cache onto the backpack.
 - On touch devices, drag from an item's silhouette, or select the item and then select its top-left grid cell.
 - Drag packed items directly to move them; holding near a screen edge scrolls toward an off-screen grid.
-- Select a packed item to rotate or remove it.
+- Select a packed item to rotate, flip, reshape, rename, or remove it. Submitting an empty name restores its catalog name.
 - Press `R` to rotate, `F` to flip, `S` to cycle shape, and `Delete` to remove the selected item.
 - Changing Strength clears the backpack after confirmation.
 
 ## Saves
 
-The inventory saves automatically in browser `localStorage` after successful placement, movement, rotation, removal, reset, import, or Strength changes. The Memory indicator shows the most recent local save time.
+The inventory saves automatically in browser `localStorage` after successful placement, movement, transformation, rename, removal, reset, import, or Strength changes. The Memory indicator shows the most recent local save time.
 
 Use the down-arrow control to export a versioned JSON backup and the up-arrow control to import one. Local saves belong to the current browser and site address, so saves from `localhost` and GitHub Pages are separate. Export/import is the supported way to transfer a character between browsers or devices.
 
 Imports are limited to 100 KB and accept only the exact save schema. Unknown properties, catalog item IDs, duplicate instance IDs, invalid types, overlaps, and out-of-bounds placements are rejected. Imported data cannot define HTML, scripts, styles, images, or catalog entries. An invalid or outdated automatic save is discarded without disabling future saves.
 
-Current exports use save version 2 to preserve rotation, flip, and shape state. Version-1 saves remain importable and migrate to the default unflipped, first-shape state.
+Current exports use save version 3 to preserve rotation, flip, shape, and per-instance custom names. Version-1 and version-2 saves remain importable; missing transform and custom-name fields migrate to their defaults.
 
 ## Tests
 

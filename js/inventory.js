@@ -102,7 +102,7 @@ export function placementFits(inventory, candidate, ignoredInstanceId = null) {
   ));
 }
 
-export function placeItem(inventory, item, row, column, rotated = false, instanceId = crypto.randomUUID(), flipped = false, shapeIndex = 0) {
+export function placeItem(inventory, item, row, column, rotated = false, instanceId = crypto.randomUUID(), flipped = false, shapeIndex = 0, customName = null) {
   const footprint = itemFootprint(item.load, rotated, flipped, shapeIndex);
   const candidate = {
     instanceId,
@@ -115,6 +115,7 @@ export function placeItem(inventory, item, row, column, rotated = false, instanc
     rotated,
     flipped,
     shapeIndex,
+    customName,
   };
 
   if (!placementFits(inventory, candidate)) return null;
@@ -192,5 +193,17 @@ export function cycleItemShape(inventory, instanceId, item) {
   return {
     ...inventory,
     placements: inventory.placements.map((placement) => placement.instanceId === instanceId ? candidate : placement),
+  };
+}
+
+export function renameItem(inventory, instanceId, customName) {
+  const current = inventory.placements.find((item) => item.instanceId === instanceId);
+  if (!current) return null;
+
+  return {
+    ...inventory,
+    placements: inventory.placements.map((item) => (
+      item.instanceId === instanceId ? { ...item, customName } : item
+    )),
   };
 }
