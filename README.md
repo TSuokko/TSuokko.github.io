@@ -1,6 +1,6 @@
 # Field Loadout
 
-A dependency-free spatial inventory minigame built with HTML, CSS, and browser-native JavaScript modules.
+A dependency-free spatial inventory minigame built with HTML, CSS, and browser-native JavaScript modules. Uses items from Arcane Arcade's Fallout TTRPG. 
 
 ## Run locally
 
@@ -11,15 +11,6 @@ python -m http.server 8000
 ```
 
 Then open `http://localhost:8000`.
-
-## GitHub Pages
-
-1. Push the repository to GitHub.
-2. Open **Settings > Pages**.
-3. Under **Build and deployment**, choose **Deploy from a branch**.
-4. Select the default branch and the `/ (root)` folder, then save.
-
-All application URLs are relative, so the site works from a project path such as `https://username.github.io/LoadBalancer/`. No build or deployment action is required.
 
 ## Add items
 
