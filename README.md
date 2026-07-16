@@ -26,10 +26,22 @@ All application URLs are relative, so the site works from a project path such as
 Edit `js/items.js` and add entries to the exported `ITEMS` array:
 
 ```js
-{ id: "tool-kit", name: "Tool Kit", load: 6, color: "#758277", category: "Tool" }
+{
+	id: "tool-kit",
+	name: "Tool Kit",
+	load: 6,
+	requirement: 4,
+	category: "Tool"
+}
 ```
 
-`load` must be a positive integer. The closest factor pair becomes the item's footprint, so Load 6 becomes 3×2 and prime Load 5 becomes 5×1. Items can rotate after selection.
+`load` must be a positive integer. Composite Loads begin with the closest rectangular factor pair, so Load 6 begins as 3×2. Prime Loads begin with an irregular balanced fold: Load 7 has rows of 4 and 3 occupied cells.
+
+The Shape control cycles composite items through their factor-pair rectangles and prime items through progressively narrower folded widths. Flip mirrors an irregular mask, while Rotate changes its orientation. Every transform preserves occupied Load and is rejected if it would overlap another item or leave the backpack.
+
+`requirement` is the minimum Strength needed for the item. Items above the current Strength remain usable but are highlighted red in both the catalog and backpack.
+
+Item colors come from the `CATEGORY_COLORS` map at the top of `js/items.js`. Add or edit category defaults there; categories without an entry use a neutral gray-green fallback.
 
 Strength ranges from 1 to 10 and produces 10 to 100 total Load. Backpack dimensions use the closest factor pair that is strictly taller than wide.
 
@@ -39,8 +51,18 @@ Strength ranges from 1 to 10 and produces 10 to 100 total Load. Backpack dimensi
 - On touch devices, drag from an item's silhouette, or select the item and then select its top-left grid cell.
 - Drag packed items directly to move them; holding near a screen edge scrolls toward an off-screen grid.
 - Select a packed item to rotate or remove it.
-- Press `R` to rotate and `Delete` to remove the selected item.
+- Press `R` to rotate, `F` to flip, `S` to cycle shape, and `Delete` to remove the selected item.
 - Changing Strength clears the backpack after confirmation.
+
+## Saves
+
+The inventory saves automatically in browser `localStorage` after successful placement, movement, rotation, removal, reset, import, or Strength changes. The Memory indicator shows the most recent local save time.
+
+Use the down-arrow control to export a versioned JSON backup and the up-arrow control to import one. Local saves belong to the current browser and site address, so saves from `localhost` and GitHub Pages are separate. Export/import is the supported way to transfer a character between browsers or devices.
+
+Imports are limited to 100 KB and accept only the exact save schema. Unknown properties, catalog item IDs, duplicate instance IDs, invalid types, overlaps, and out-of-bounds placements are rejected. Imported data cannot define HTML, scripts, styles, images, or catalog entries. An invalid or outdated automatic save is discarded without disabling future saves.
+
+Current exports use save version 2 to preserve rotation, flip, and shape state. Version-1 saves remain importable and migrate to the default unflipped, first-shape state.
 
 ## Tests
 

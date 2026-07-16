@@ -3,7 +3,11 @@ import assert from "node:assert/strict";
 import {
   backpackDimensions,
   createInventory,
+  cycleItemShape,
+  flipItem,
   itemDimensions,
+  itemFootprint,
+  itemShapeCount,
   loadFromStrength,
   moveItem,
   occupiedLoad,
@@ -26,10 +30,19 @@ test("backpacks use the closest strictly portrait factor pair", () => {
   assert.deepEqual(backpackDimensions(100), { width: 5, height: 20 });
 });
 
-test("items use the closest factor pair in landscape orientation", () => {
+test("composite items use the closest factor pair in landscape orientation", () => {
   assert.deepEqual(itemDimensions(6), { width: 3, height: 2 });
   assert.deepEqual(itemDimensions(4), { width: 2, height: 2 });
-  assert.deepEqual(itemDimensions(5), { width: 5, height: 1 });
+});
+
+test("prime Load items fold into irregular two-row footprints", () => {
+  const footprint = itemFootprint(7);
+  assert.deepEqual({ width: footprint.width, height: footprint.height }, { width: 4, height: 2 });
+  assert.deepEqual(footprint.cells, [
+    { row: 0, column: 0 }, { row: 0, column: 1 }, { row: 0, column: 2 }, { row: 0, column: 3 },
+    { row: 1, column: 0 }, { row: 1, column: 1 }, { row: 1, column: 2 },
+  ]);
+  assert.deepEqual(itemDimensions(5), { width: 3, height: 2 });
 });
 
 test("placement rejects overlap and every out-of-bounds direction", () => {
@@ -48,7 +61,14 @@ test("invalid moves preserve prior state and valid moves retain identity", () =>
   assert.equal(moveItem(inventory, "one", 0, inventory.width), null);
   assert.deepEqual(inventory.placements[0], {
     instanceId: "one", itemId: "case", row: 0, column: 0,
-    width: 2, height: 2, rotated: false,
+    width: 2, height: 2,
+    cells: [
+      { row: 0, column: 0 }, { row: 0, column: 1 },
+      { row: 1, column: 0 }, { row: 1, column: 1 },
+    ],
+    rotated: false,
+    flipped: false,
+    shapeIndex: 0,
   });
   assert.equal(moveItem(inventory, "one", 2, 0).placements[0].row, 2);
 });
@@ -69,4 +89,45 @@ test("removal releases occupied Load", () => {
   const inventory = placeItem(createInventory(2), item("case", 4), 0, 0, false, "one");
   assert.equal(occupiedLoad(inventory), 4);
   assert.equal(occupiedLoad(removeItem(inventory, "one")), 0);
+});
+
+test("irregular items can interlock without overlapping occupied cells", () => {
+  const first = placeItem(createInventory(3), item("prime", 3), 0, 0, false, "one");
+  const interlocked = placeItem(first, item("single", 1), 1, 1, false, "two");
+
+  assert.ok(interlocked);
+  assert.equal(occupiedLoad(interlocked), 4);
+  assert.equal(placeItem(first, item("single", 1), 1, 0, false, "blocked"), null);
+});
+
+test("irregular rotation toggles between the base and 90-degree masks", () => {
+  const baseInventory = placeItem(createInventory(3), item("prime", 7), 0, 0, false, "one");
+  const basePlacement = baseInventory.placements[0];
+  const rotatedInventory = rotateItem(baseInventory, "one");
+  const rotatedPlacement = rotatedInventory.placements[0];
+
+  assert.deepEqual({ width: rotatedPlacement.width, height: rotatedPlacement.height }, { width: 2, height: 4 });
+  assert.deepEqual(rotateItem(rotatedInventory, "one").placements[0].cells, basePlacement.cells);
+});
+
+test("flip mirrors an irregular footprint and toggles back", () => {
+  const inventory = placeItem(createInventory(3), item("prime", 7), 0, 0, false, "one");
+  const flipped = flipItem(inventory, "one", item("prime", 7));
+
+  assert.equal(flipped.placements[0].flipped, true);
+  assert.deepEqual(flipped.placements[0].cells.at(-1), { row: 1, column: 1 });
+  assert.deepEqual(flipItem(flipped, "one", item("prime", 7)).placements[0].cells, inventory.placements[0].cells);
+});
+
+test("shape cycles factor pairs for composites and folded widths for primes", () => {
+  assert.equal(itemShapeCount(12), 3);
+  assert.equal(itemShapeCount(7), 4);
+
+  const composite = placeItem(createInventory(6), item("case", 12), 0, 0, false, "one");
+  const nextComposite = cycleItemShape(composite, "one", item("case", 12));
+  assert.deepEqual({ width: nextComposite.placements[0].width, height: nextComposite.placements[0].height }, { width: 6, height: 2 });
+
+  const prime = placeItem(createInventory(3), item("prime", 7), 0, 0, false, "two");
+  const nextPrime = cycleItemShape(prime, "two", item("prime", 7));
+  assert.deepEqual({ width: nextPrime.placements[0].width, height: nextPrime.placements[0].height }, { width: 3, height: 3 });
 });
