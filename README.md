@@ -1,4 +1,4 @@
-# Field Loadout
+# TTRPG Survival Loadout
 
 A dependency-free spatial inventory minigame built with HTML, CSS, and browser-native JavaScript modules. Uses items from Arcane Arcade's Fallout TTRPG. 
 
