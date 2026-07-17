@@ -30,3 +30,13 @@ test("items in the same category always resolve to the same color", () => {
   assert.deepEqual([...new Set(meleeColors)], [CATEGORY_COLORS.Melee]);
   assert.equal(categoryColor("Unknown"), "#718071");
 });
+
+test("every catalog item exposes description and properties fields", () => {
+  assert.equal(ITEMS.every((item) => typeof item.description === "string" && item.description.length > 0), true);
+  assert.equal(ITEMS.every((item) => item.properties && typeof item.properties === "object"), true);
+  assert.deepEqual(ITEMS.find((item) => item.id === "knife").properties, {
+    Grip: "One-handed",
+    Reach: "Close",
+    Damage: "Physical",
+  });
+});
