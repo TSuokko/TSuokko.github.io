@@ -16,10 +16,11 @@ export const CATEGORY_COLORS = Object.freeze({
 
 const DEFAULT_CATEGORY_COLOR = "#718071";
 
-export const ITEMS = [
+//descriptions currently are tests
+const ITEM_DEFINITIONS = [
   //armor
   //note, armor load is based on if the user is wearing the armor 
-  { id: "cloth-armor", name: "Cloth Armor", load: 2, requirement: 1, category: "Armor" },
+  { id: "cloth-armor", name: "Cloth Armor", load: 2, requirement: 1, category: "Armor", description: "Layered cloth protection that favors mobility over stopping power.", properties: { Protection: "Light", Mobility: "High" } },
   { id: "leather-armor", name: "Leather Armor", load: 7, requirement: 1, category: "Armor" },
   { id: "metal-armor", name: "Metal Armor", load: 10, requirement: 5, category: "Armor" },
   { id: "multi-layer-armor", name: "Multi-layer Armor", load: 20, requirement: 3, category: "Armor"},
@@ -30,7 +31,7 @@ export const ITEMS = [
   { id: "hazmat", name: "Hazmat Suit", load: 10, requirement: 1, category: "Armor" },
   //melee
   { id: "shiv", name: "Shiv", load: 1, requirement: 1, category: "Melee"},
-  { id: "knife", name: "Knife", load: 2, requirement: 2, category: "Melee"},
+  { id: "knife", name: "Knife", load: 2, requirement: 2, category: "Melee", description: "A compact blade suited to quick close-quarters attacks and utility work.", properties: { Grip: "One-handed", Reach: "Close", Damage: "Physical" } },
   { id: "machete", name: "Machete", load: 3, requirement: 4, category: "Melee"},
   { id: "axe", name: "Axe", load: 10, requirement: 6, category: "Melee"},
   { id: "sledgehammer", name: "Sledgehammer", load: 26, requirement: 7, category: "Melee"},
@@ -70,7 +71,7 @@ export const ITEMS = [
   { id: "Mini-nuke", name: "Mini Nuke", load: 12, requirement: 1, category: "Ammo" },
   { id: "Missile", name: "Missile", load: 10, requirement: 1, category: "Ammo" },
   //guns
-  { id: "9mm-pistol", name: "9mm Pistol", load: 5, requirement: 3, category: "Guns" },
+  { id: "9mm-pistol", name: "9mm Pistol", load: 5, requirement: 3, category: "Guns", description: "A compact semiautomatic sidearm chambered for 9mm ammunition.", properties: { Ammunition: "9mm", Action: "Semiautomatic", Grip: "One-handed" } },
   { id: "10mm-pistol", name: "10mm Pistol", load: 6, requirement: 4, category: "Guns" },
   { id: "pipe-pistol", name: "Pipe Pistol", load: 6, requirement: 3, category: "Guns" },
   { id: "acid-soaker", name: "Acid Soaker", load: 5, requirement: 1, category: "Guns" },
@@ -97,7 +98,7 @@ export const ITEMS = [
   { id: "fat-man", name: "Fat Man", load: 30, requirement: 5, category: "Guns" },
   { id: "missile-launcher", name: "Missile Launcher", load: 50, requirement: 7, category: "Guns" },
   //energy
-  { id: "laser-pistol", name: "Laser Pistol", load: 5, requirement: 1, category: "Energy" },
+  { id: "laser-pistol", name: "Laser Pistol", load: 5, requirement: 1, category: "Energy", description: "A compact directed-energy sidearm with no conventional projectile.", properties: { Ammunition: "Energy cell", Damage: "Energy", Grip: "One-handed" } },
   { id: "laser-rifle", name: "Laser Rifle", load: 8, requirement: 2, category: "Energy" },
   { id: "plasma-pistol", name: "Plasma Pistol", load: 4, requirement: 2, category: "Energy" },
   { id: "plasma-rifle", name: "Plasma Rifle", load: 8, requirement: 3, category: "Energy" },
@@ -107,7 +108,7 @@ export const ITEMS = [
   { id: "cryolator", name: "Cryolator", load: 20, requirement: 6, category: "Energy" },
   { id: "tesla-cannon", name: "Tesla Cannon", load: 12, requirement: 4, category: "Energy" },
   //explosives
-  { id: "dynamite", name: "Dynamite", load: 3, requirement: 1, category: "Explosives" },
+  { id: "dynamite", name: "Dynamite", load: 3, requirement: 1, category: "Explosives", description: "A timed explosive charge that damages everything near its detonation.", properties: { Trigger: "Timed fuse", Effect: "Area damage", Placement: "Thrown" } },
   { id: "molotov", name: "Molotov Cocktail", load: 4, requirement: 1, category: "Explosives" },
   { id: "frag-grenade", name: "Frag Grenade", load: 3, requirement: 1, category: "Explosives" },
   { id: "plasma-grenade", name: "Plasma Grenade", load: 4, requirement: 1, category: "Explosives" },
@@ -125,9 +126,9 @@ export const ITEMS = [
   { id: "canteen", name: "Canteen", load: 2, requirement: 1, category: "Gear"},
   { id: "chains", name: "Chains", load: 12, requirement: 1, category: "Gear"},
   { id: "flare", name: "Flare", load: 1, requirement: 1, category: "Gear"},
-  { id: "flashlight", name: "Flashlight", load: 2, requirement: 1, category: "Gear"},
+  { id: "flashlight", name: "Flashlight", load: 2, requirement: 1, category: "Gear", description: "A portable light source for searching dark or enclosed spaces.", properties: { Power: "Battery", Effect: "Illumination", Grip: "One-handed" } },
   { id: "gasmask", name: "Gas Mask", load: 12, requirement: 1, category: "Gear"},
-  { id: "lockpick", name: "Lockpick", load: 4, requirement: 1, category: "Gear"},  
+  { id: "lockpick", name: "Lockpick", load: 4, requirement: 1, category: "Gear"},
   { id: "rope", name: "Rope", load: 8, requirement: 1, category: "Gear"},
   { id: "sleeping-bag", name: "Sleeping Bag", load: 10, requirement: 1, category: "Gear"},
   { id: "tent", name: "Tent", load: 12, requirement: 1, category: "Gear"},
@@ -204,6 +205,12 @@ export const ITEMS = [
 
 ];
 
+export const ITEMS = ITEM_DEFINITIONS.map((item) => Object.freeze({
+  ...item,
+  description: item.description ?? "No description recorded for this item.",
+  properties: Object.freeze({ ...(item.properties ?? {}) }),
+}));
+
 export function categoryColor(category) {
   return CATEGORY_COLORS[category] ?? DEFAULT_CATEGORY_COLOR;
 }
@@ -214,6 +221,6 @@ export function meetsItemRequirement(item, strength) {
 
 export function matchesItemSearch(item, searchTerm) {
   const query = searchTerm.trim().toLocaleLowerCase();
-  return [item.name, item.category]
+  return [item.name, item.category, item.description]
     .some((value) => value.toLocaleLowerCase().includes(query));
 }

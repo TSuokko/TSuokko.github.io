@@ -37,6 +37,7 @@ const elements = {
   flip: document.querySelector("#flip"),
   shape: document.querySelector("#shape"),
   rename: document.querySelector("#rename"),
+  description: document.querySelector("#description"),
   remove: document.querySelector("#remove"),
   dimensions: document.querySelector("#dimensions"),
   grid: document.querySelector("#inventory-grid"),
@@ -45,6 +46,14 @@ const elements = {
   renameForm: document.querySelector("#rename-form"),
   renameInput: document.querySelector("#rename-input"),
   renameCancel: document.querySelector("#rename-cancel"),
+  descriptionDialog: document.querySelector("#description-dialog"),
+  descriptionTitle: document.querySelector("#description-title"),
+  descriptionCategory: document.querySelector("#description-category"),
+  descriptionLoad: document.querySelector("#description-load"),
+  descriptionRequirement: document.querySelector("#description-requirement"),
+  descriptionText: document.querySelector("#description-text"),
+  descriptionProperties: document.querySelector("#description-properties"),
+  descriptionClose: document.querySelector("#description-close"),
 };
 
 let inventory = createInventory(3);
@@ -253,6 +262,7 @@ function renderSelection() {
   const item = placement ? catalogItem(placement.itemId) : catalogItem(selectedCatalogId);
   elements.remove.disabled = !placement;
   elements.rename.disabled = !placement;
+  elements.description.disabled = !item;
   elements.rotate.disabled = !item;
   elements.shape.disabled = !item || itemShapeCount(item.load) <= 1;
   elements.footprint.replaceChildren();
@@ -598,6 +608,37 @@ elements.rename.addEventListener("click", () => {
   elements.renameInput.focus();
   elements.renameInput.select();
 });
+
+elements.description.addEventListener("click", () => {
+  const placement = selectedPlacement();
+  const item = placement ? catalogItem(placement.itemId) : catalogItem(selectedCatalogId);
+  if (!item) return;
+
+  elements.descriptionTitle.textContent = placement ? placementName(placement, item) : item.name;
+  elements.descriptionCategory.textContent = placement?.customName ? `${item.name} · ${item.category}` : item.category;
+  elements.descriptionLoad.textContent = item.load;
+  elements.descriptionRequirement.textContent = item.requirement;
+  elements.descriptionText.textContent = item.description;
+  elements.descriptionProperties.replaceChildren();
+  const properties = Object.entries(item.properties);
+  if (properties.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "description-empty";
+    empty.textContent = "No unique properties recorded.";
+    elements.descriptionProperties.append(empty);
+  } else {
+    for (const [label, value] of properties) {
+      const term = document.createElement("dt");
+      term.textContent = label;
+      const detail = document.createElement("dd");
+      detail.textContent = value;
+      elements.descriptionProperties.append(term, detail);
+    }
+  }
+  elements.descriptionDialog.showModal();
+});
+
+elements.descriptionClose.addEventListener("click", () => elements.descriptionDialog.close());
 
 elements.renameCancel.addEventListener("click", () => elements.renameDialog.close("cancel"));
 
