@@ -24,7 +24,7 @@ const ITEM_DEFINITIONS = [
     description: "Cloth armor doesn’t provide much protection. However it lends its simplicity to being light and having the most amount of upgrade slots. Most vault suits are considered cloth armor.", 
     properties: { AC: 10, DT: 0, Slots: 8 } },
   { id: "leather-armor", name: "Leather Armor", load: 7, requirement: 1, category: "Armor", 
-    description: "A jacket, fittings around the arms, knee pads, and boots all fall under leather armor. Leather isn’t very tough but can fit easily around one’s body.", 
+    description: "A jacket, fittings around the arms, knee pads, and boots all fall under leather armor. Leather isn't very tough but can fit easily around one's body.", 
     properties: { AC: 11, DT: 1, Slots: 6 } 
   },
   { id: "metal-armor", name: "Metal Armor", load: 10, requirement: 5, category: "Armor",
@@ -196,7 +196,7 @@ const ITEM_DEFINITIONS = [
     description: "This small tent provides shelter from outside sources, weather, and terrain."
    },
   { id: "weapon-repair-kit", name: "Weapon Repair Kit", load: 10, requirement: 1, category: "Gear",
-    description: "This plastic box filled with tools and mechanisms was used during the great war to repair soldiers’ weapons with ease. Though, the tech used to create them has long since been forgotten; many are still found across the wasteland. You can spend 6 AP to insert any weapon into the repair kit. After 1 minute, the weapon is ejected and loses 2 levels of decay. The weapon repair kit ceases function after it has been used a total of three times."
+    description: "This plastic box filled with tools and mechanisms was used during the great war to repair soldiers' weapons with ease. Though, the tech used to create them has long since been forgotten; many are still found across the wasteland. You can spend 6 AP to insert any weapon into the repair kit. After 1 minute, the weapon is ejected and loses 2 levels of decay. The weapon repair kit ceases function after it has been used a total of three times."
    },
   //food
   { id: "canned-food", name: "Canned Food", load: 2, requirement: 1, category: "Food" },
@@ -211,13 +211,13 @@ const ITEM_DEFINITIONS = [
   { id: "stew", name: "Stew", load: 8, requirement: 1, category: "Food" },
   //meds
   { id: "antibiotics", name: "Antibiotics", load: 1, requirement: 1, category: "Meds",
-    description: "This bottled medicine can stop diseases. How it affects the disease you contracted is dependent on the disease. You can consume this bottled medicine with 5 AP.",
+    description: "This bottled medicine can stop diseases. How it affects the disease you contracted is dependent on the disease. You can consume this bottled medicine with 5 AP."
    },
   { id: "antivenom", name: "Antivenom", load: 3, requirement: 1, category: "Meds",
-    description: "You can consume this bottled medicine with 5 AP. If you do; you become resistant to poison damage dealt to your hit points for the next 6 hours.",
+    description: "You can consume this bottled medicine with 5 AP. If you do; you become resistant to poison damage dealt to your hit points for the next 6 hours."
    },
   { id: "doctors-bag", name: "Doctor's Bag", load: 15, requirement: 1, category: "Meds",
-    description: "This bag includes specialized tools, bandages, gauze, and healing serums to provide medical aid. You can use this kit on yourself or another creature so long as they are next to you. When you use it, choose one of the following actions. After you have used three of these actions, the doctor’ bag supplies are used and it no longer functions.",
+    description: "This bag includes specialized tools, bandages, gauze, and healing serums to provide medical aid. You can use this kit on yourself or another creature so long as they are next to you. When you use it, choose one of the following actions. After you have used three of these actions, the doctor bag supplies are used and it no longer functions.",
     properties: { Tourniquet: "Spend 6 AP and remove up to two levels of bleeding.",
       Pills: "Spend 6 AP to heal a dying creature 1 hit point.",
       Stitch: "Spend 10 minutes and heal a creature with a number of hit points equal to double their healing rate + your medicine skill bonus.",
@@ -232,14 +232,14 @@ const ITEM_DEFINITIONS = [
     }
   },
   { id: "rad-away", name: "Rad-Away", load: 4, requirement: 1, category: "Meds",
-    description: "You can spend 15 minutes to use this medicinal item on yourself or a creature within 5 feet of you. At the end of the hour, the affected creature removes two levels of radiation but gains one level of thirst.",
+    description: "You can spend 15 minutes to use this medicinal item on yourself or a creature within 5 feet of you. At the end of the hour, the affected creature removes two levels of radiation but gains one level of thirst."
    },
   { id: "pills", name: "Pills", load: 1, requirement: 1, category: "Meds" },
   { id: "stimpak", name: "Stimpak", load: 4, requirement: 1, category: "Meds",
-    description: "You can spend 4 AP to use this medicinal item on yourself or another creature so long as they are next to you. If that creature is a human, mutant, abomination, animal, or insect; they heal a number of hit points equal to their healing rate. If that creature is a ghoul; they heal a number of hit points equal to half their healing rate.",
+    description: "You can spend 4 AP to use this medicinal item on yourself or another creature so long as they are next to you. If that creature is a human, mutant, abomination, animal, or insect; they heal a number of hit points equal to their healing rate. If that creature is a ghoul; they heal a number of hit points equal to half their healing rate."
    },
   { id: "robot-fix-kit", name: "Quick Fix-it 1.0", load: 4, requirement: 1, category: "Meds",
-    description: "Quick Fix-it 1.0 is a healing stim but for robots! You can spend 4 AP to use this item on yourself or another creature so long as they are next to you. If that creature is a robot or gen-2 synth; they heal a number of hit points equal to half their healing rate.",
+    description: "Quick Fix-it 1.0 is a healing stim but for robots! You can spend 4 AP to use this item on yourself or another creature so long as they are next to you. If that creature is a robot or gen-2 synth; they heal a number of hit points equal to half their healing rate."
    },
   { id: "chem", name: "Chem (Bottle)", load: 1, requirement: 1, category: "Meds" },
   { id: "chems", name: "Chems (10x Pills)", load: 1, requirement: 1, category: "Meds" },
