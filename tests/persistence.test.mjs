@@ -1,11 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createInventory, placeItem } from "../js/inventory.js";
+import { createInventory, moveItem, placeItem } from "../js/inventory.js";
 import { parseInventorySave, serializeInventory } from "../js/persistence.js";
 
 const catalog = [
   { id: "knife", load: 2 },
   { id: "kit", load: 4 },
+  { id: "satchel", load: 1, category: "Bag", properties: { Space: 5 } },
 ];
 
 test("save data round-trips stable placement fields", () => {
@@ -15,6 +16,30 @@ test("save data round-trips stable placement fields", () => {
   assert.equal(restored.strength, 3);
   assert.deepEqual(restored.placements, inventory.placements);
   assert.equal(restored.placements[0].customName, "Scout's <Knife>");
+});
+
+test("Bag capacity is derived from ordered placements during import", () => {
+  const bag = catalog.find((item) => item.id === "satchel");
+  const expanded = placeItem(createInventory(3), bag, 0, 0, false, "bag");
+  const inventory = placeItem(expanded, catalog[0], 6, 3, false, "knife");
+  const serialized = serializeInventory(inventory);
+  const restored = parseInventorySave(serialized, catalog).inventory;
+
+  assert.equal(restored.load, 35);
+  assert.equal(restored.height, 7);
+  const reducedBag = { ...bag, properties: { Space: 4 } };
+  assert.throws(() => parseInventorySave(serialized, [catalog[0], catalog[1], reducedBag]), /out-of-bounds/);
+});
+
+test("Bag import works when an older item was moved into bonus capacity", () => {
+  const bag = catalog.find((item) => item.id === "satchel");
+  const cargoFirst = placeItem(createInventory(3), catalog[0], 0, 1, false, "knife");
+  const expanded = placeItem(cargoFirst, bag, 0, 0, false, "bag");
+  const inventory = moveItem(expanded, "knife", 6, 3);
+  const restored = parseInventorySave(serializeInventory(inventory), catalog).inventory;
+
+  assert.equal(restored.load, 35);
+  assert.equal(restored.placements.find((placement) => placement.instanceId === "knife").row, 6);
 });
 
 test("imports reject unknown properties and prototype pollution keys", () => {

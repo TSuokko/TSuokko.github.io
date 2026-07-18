@@ -73,10 +73,38 @@ export function itemFootprint(load, rotated = false, flipped = false, shapeIndex
   };
 }
 
-export function createInventory(strength = 3) {
-  const load = loadFromStrength(strength);
-  const { width, height } = backpackDimensions(load);
-  return { strength, load, width, height, placements: [] };
+export function createInventory(strength = 3, bonusLoad = 0) {
+  if (!Number.isInteger(bonusLoad) || bonusLoad < 0) {
+    throw new RangeError("Bonus Load must be a non-negative integer.");
+  }
+
+  const baseLoad = loadFromStrength(strength);
+  const { width } = backpackDimensions(baseLoad);
+  const load = baseLoad + bonusLoad;
+  return { strength, load, width, height: Math.ceil(load / width), placements: [] };
+}
+
+export function bagSpace(item) {
+  const space = item?.properties?.Space;
+  return item?.category === "Bag" && Number.isInteger(space) && space > 0 ? space : 0;
+}
+
+function resizeInventory(inventory, load) {
+  return { ...inventory, load, height: Math.ceil(load / inventory.width) };
+}
+
+export function cellWithinCapacity(inventory, row, column) {
+  return row >= 0 && column >= 0 && column < inventory.width && row * inventory.width + column < inventory.load;
+}
+
+export function cellUsesBagSpace(inventory, row, column) {
+  return cellWithinCapacity(inventory, row, column) && row * inventory.width + column >= loadFromStrength(inventory.strength);
+}
+
+function placementWithinCapacity(inventory, candidate) {
+  return candidate.cells.every((cell) => (
+    cellWithinCapacity(inventory, candidate.row + cell.row, candidate.column + cell.column)
+  ));
 }
 
 export function placementFits(inventory, candidate, ignoredInstanceId = null) {
@@ -84,7 +112,8 @@ export function placementFits(inventory, candidate, ignoredInstanceId = null) {
     candidate.row < 0 ||
     candidate.column < 0 ||
     candidate.row + candidate.height > inventory.height ||
-    candidate.column + candidate.width > inventory.width
+    candidate.column + candidate.width > inventory.width ||
+    !placementWithinCapacity(inventory, candidate)
   ) {
     return false;
   }
@@ -102,7 +131,7 @@ export function placementFits(inventory, candidate, ignoredInstanceId = null) {
   ));
 }
 
-export function placeItem(inventory, item, row, column, rotated = false, instanceId = crypto.randomUUID(), flipped = false, shapeIndex = 0, customName = null) {
+export function placeItem(inventory, item, row, column, rotated = false, instanceId = crypto.randomUUID(), flipped = false, shapeIndex = 0, customName = null, activateBagSpace = true) {
   const footprint = itemFootprint(item.load, rotated, flipped, shapeIndex);
   const candidate = {
     instanceId,
@@ -119,7 +148,8 @@ export function placeItem(inventory, item, row, column, rotated = false, instanc
   };
 
   if (!placementFits(inventory, candidate)) return null;
-  return { ...inventory, placements: [...inventory.placements, candidate] };
+  const placed = { ...inventory, placements: [...inventory.placements, candidate] };
+  return resizeInventory(placed, inventory.load + (activateBagSpace ? bagSpace(item) : 0));
 }
 
 export function moveItem(inventory, instanceId, row, column) {
@@ -156,11 +186,17 @@ export function rotateItem(inventory, instanceId) {
   };
 }
 
-export function removeItem(inventory, instanceId) {
-  return {
+export function removeItem(inventory, instanceId, item = null) {
+  const current = inventory.placements.find((placement) => placement.instanceId === instanceId);
+  if (!current) return inventory;
+
+  const next = resizeInventory({
     ...inventory,
-    placements: inventory.placements.filter((item) => item.instanceId !== instanceId),
-  };
+    placements: inventory.placements.filter((placement) => placement.instanceId !== instanceId),
+  }, inventory.load - bagSpace(item));
+
+  if (next.placements.some((placement) => !placementWithinCapacity(next, placement))) return null;
+  return next;
 }
 
 export function occupiedLoad(inventory) {

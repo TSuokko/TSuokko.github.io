@@ -1,4 +1,6 @@
 import {
+  cellUsesBagSpace,
+  cellWithinCapacity,
   createInventory,
   cycleItemShape,
   flipItem,
@@ -245,7 +247,14 @@ function renderGrid() {
       cell.dataset.column = column;
       cell.style.gridColumn = column + 1;
       cell.style.gridRow = row + 1;
-      cell.setAttribute("aria-label", `Row ${row + 1}, column ${column + 1}`);
+      const available = cellWithinCapacity(inventory, row, column);
+      const usesBagSpace = cellUsesBagSpace(inventory, row, column);
+      cell.disabled = !available;
+      cell.classList.toggle("unavailable", !available);
+      cell.classList.toggle("bag-space", usesBagSpace);
+      cell.setAttribute("aria-label", available
+        ? `Row ${row + 1}, column ${column + 1}${usesBagSpace ? ", Bag Space" : ""}`
+        : `Row ${row + 1}, column ${column + 1}, unavailable`);
       elements.grid.append(cell);
     }
   }
@@ -593,7 +602,10 @@ elements.rotate.addEventListener("click", () => {
 
 elements.remove.addEventListener("click", () => {
   if (!selectedInstanceId) return;
-  inventory = removeItem(inventory, selectedInstanceId);
+  const placement = selectedPlacement();
+  const next = removeItem(inventory, selectedInstanceId, catalogItem(placement.itemId));
+  if (!next) return announce("Move or remove items using this Bag's Space first.", true);
+  inventory = next;
   selectedInstanceId = null;
   persistInventory();
   announce("Item removed.");

@@ -33,6 +33,24 @@ Edit `js/items.js` and add entries to the exported `ITEMS` array:
 
 `description` supplies the item-specific summary shown by the Description control. `properties` accepts any label/value pairs appropriate to that item, so armor, weapons, consumables, and tools do not need to share one stat shape. Missing descriptions and property sets receive explicit empty-state text while an item is being drafted. Item search also matches description text.
 
+Items in the `Bag` category can expand Total Load with a positive integer `Space` property:
+
+```js
+{
+	id: "field-bag",
+	name: "Field Bag",
+	load: 2,
+	requirement: 1,
+	category: "Bag",
+	description: "A compact bag with additional storage.",
+	properties: {
+		Space: 10
+	}
+}
+```
+
+Each packed Bag adds its Space to Total Load, and bonuses from multiple Bags stack. Backpack width stays fixed while new rows open downward; cells beyond the exact Total Load in a partial final row remain unavailable. A Bag cannot be removed while another packed item occupies capacity supplied by it.
+
 `load` must be a positive integer. Composite Loads begin with the closest rectangular factor pair, so Load 6 begins as 3×2. Prime Loads begin with an irregular balanced fold: Load 7 has rows of 4 and 3 occupied cells.
 
 The Shape control cycles composite items through their factor-pair rectangles and prime items through progressively narrower folded widths. Flip mirrors an irregular mask, while Rotate changes its orientation. Every transform preserves occupied Load and is rejected if it would overlap another item or leave the backpack.
@@ -41,7 +59,7 @@ The Shape control cycles composite items through their factor-pair rectangles an
 
 Item colors come from the `CATEGORY_COLORS` map at the top of `js/items.js`. Add or edit category defaults there; categories without an entry use a neutral gray-green fallback.
 
-Strength ranges from 1 to 10 and produces 10 to 100 total Load. Backpack dimensions use the closest factor pair that is strictly taller than wide.
+Strength ranges from 1 to 10 and produces 10 to 100 base Load. The initial backpack dimensions use the closest factor pair that is strictly taller than wide, then Bag Space expands it downward.
 
 ## Controls
 

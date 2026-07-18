@@ -113,6 +113,10 @@ h2 { margin-top: 3px; color: var(--bright); font-size: 22px; }
 .inventory-grid { display: grid; grid-template-columns: repeat(var(--columns), var(--cell)); grid-template-rows: repeat(var(--rows), var(--cell)); position: relative; background: #0a170c; border: 2px solid var(--line); box-shadow: inset 0 0 28px #000, 0 0 12px rgba(90, 255, 99, .08); }
 .grid-cell { width: var(--cell); height: var(--cell); border: 0; border-right: 1px solid #28552d; border-bottom: 1px solid #28552d; background: linear-gradient(145deg, rgba(30, 78, 35, .16), rgba(3, 14, 6, .55)); cursor: crosshair; }
 .grid-cell:hover { background: rgba(112, 255, 116, .14); box-shadow: inset 0 0 10px rgba(125, 255, 134, .12); }
+.grid-cell.bag-space { border-color: #8c651f; background: linear-gradient(145deg, rgba(216, 163, 54, .28), rgba(48, 32, 6, .68)); box-shadow: inset 0 0 8px rgba(255, 196, 74, .08); }
+.grid-cell.bag-space:hover { background: rgba(255, 190, 58, .27); box-shadow: inset 0 0 12px rgba(255, 205, 94, .18); }
+.grid-cell.unavailable { cursor: not-allowed; background: repeating-linear-gradient(135deg, rgba(61, 73, 52, .32) 0 5px, rgba(5, 12, 6, .72) 5px 10px); opacity: .48; }
+.grid-cell.unavailable:hover { background: repeating-linear-gradient(135deg, rgba(61, 73, 52, .32) 0 5px, rgba(5, 12, 6, .72) 5px 10px); box-shadow: none; }
 .placed-item { position: relative; z-index: 2; min-width: 0; display: grid; grid-template-columns: repeat(var(--shape-columns), 1fr); grid-template-rows: repeat(var(--shape-rows), 1fr); padding: 0; overflow: visible; border: 0; background: transparent; pointer-events: none; }
 .placed-item .shape-cell { border: 1px solid color-mix(in srgb, var(--item-color), white 55%); background: color-mix(in srgb, var(--item-color), transparent 34%); box-shadow: inset 0 0 16px color-mix(in srgb, var(--item-color), white 12%), 0 0 8px color-mix(in srgb, var(--item-color), transparent 65%); cursor: grab; pointer-events: auto; touch-action: none; }
 .placed-item.selected .shape-cell { border: 2px dashed color-mix(in srgb, var(--item-color), white 65%); background: color-mix(in srgb, var(--item-color), white 16%); }

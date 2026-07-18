@@ -1,4 +1,4 @@
-import { createInventory, itemShapeCount, placeItem } from "./inventory.js";
+import { bagSpace, createInventory, itemShapeCount, placeItem } from "./inventory.js";
 
 export const SAVE_VERSION = 3;
 export const MAX_SAVE_BYTES = 100_000;
@@ -65,7 +65,11 @@ export function parseInventorySave(text, catalog) {
 
   const itemsById = new Map(catalog.map((item) => [item.id, item]));
   const instanceIds = new Set();
-  let inventory = createInventory(data.strength);
+  const bonusLoad = data.placements.reduce((total, placement) => {
+    if (!isRecord(placement)) return total;
+    return total + bagSpace(itemsById.get(placement.itemId));
+  }, 0);
+  let inventory = createInventory(data.strength, bonusLoad);
 
   for (const placement of data.placements) {
     const placementKeys = data.version === 1
@@ -113,6 +117,7 @@ export function parseInventorySave(text, catalog) {
       flipped,
       shapeIndex,
       customName,
+      false,
     );
     if (!next) throw new Error("Save file contains overlapping or out-of-bounds items.");
     inventory = next;
