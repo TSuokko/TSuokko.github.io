@@ -2,6 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   backpackDimensions,
+  bagSpace,
+  cellUsesBagSpace,
+  cellWithinCapacity,
   createInventory,
   cycleItemShape,
   flipItem,
@@ -91,6 +94,45 @@ test("removal releases occupied Load", () => {
   const inventory = placeItem(createInventory(2), item("case", 4), 0, 0, false, "one");
   assert.equal(occupiedLoad(inventory), 4);
   assert.equal(occupiedLoad(removeItem(inventory, "one")), 0);
+});
+
+test("Bag Space expands exact capacity downward without changing width", () => {
+  const bag = { id: "satchel", load: 1, category: "Bag", properties: { Space: 4 } };
+  const inventory = placeItem(createInventory(3), bag, 0, 0, false, "bag");
+
+  assert.equal(inventory.load, 34);
+  assert.equal(inventory.width, 5);
+  assert.equal(inventory.height, 7);
+  assert.equal(cellWithinCapacity(inventory, 6, 3), true);
+  assert.equal(cellWithinCapacity(inventory, 6, 4), false);
+  assert.equal(cellUsesBagSpace(inventory, 5, 4), false);
+  assert.equal(cellUsesBagSpace(inventory, 6, 0), true);
+  assert.equal(cellUsesBagSpace(inventory, 6, 4), false);
+  assert.ok(placeItem(inventory, item("last", 1), 6, 3, false, "last"));
+  assert.equal(placeItem(inventory, item("overflow", 1), 6, 4, false, "overflow"), null);
+});
+
+test("valid Bag Space stacks while malformed and non-Bag values are ignored", () => {
+  const validBag = { id: "bag", load: 1, category: "Bag", properties: { Space: 3 } };
+  const first = placeItem(createInventory(3), validBag, 0, 0, false, "one");
+  const stacked = placeItem(first, validBag, 0, 1, false, "two");
+
+  assert.equal(stacked.load, 36);
+  assert.equal(bagSpace({ category: "Gear", properties: { Space: 10 } }), 0);
+  assert.equal(bagSpace({ category: "Bag", properties: { Space: "10" } }), 0);
+  assert.equal(bagSpace({ category: "Bag", properties: { Space: -1 } }), 0);
+});
+
+test("Bag removal shrinks capacity or is blocked when contents depend on it", () => {
+  const bag = { id: "satchel", load: 1, category: "Bag", properties: { Space: 5 } };
+  const expanded = placeItem(createInventory(3), bag, 0, 0, false, "bag");
+  const dependent = placeItem(expanded, item("cargo", 1), 6, 4, false, "cargo");
+
+  assert.equal(removeItem(dependent, "bag", bag), null);
+  const cargoRemoved = removeItem(dependent, "cargo", item("cargo", 1));
+  const shrunk = removeItem(cargoRemoved, "bag", bag);
+  assert.equal(shrunk.load, 30);
+  assert.equal(shrunk.height, 6);
 });
 
 test("irregular items can interlock without overlapping occupied cells", () => {

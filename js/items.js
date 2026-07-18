@@ -3,21 +3,32 @@ export const CATEGORY_COLORS = Object.freeze({
   Armor: "#7c9e9d", //light blue
   Guns: "#333333", //dark grey
   Melee: "#774f13", //brown
-  Ammo: "#ffff00", //yellow
+  Ammo: "#f2f2e9", //yellow
   Energy: "#00ff00", //green
   Explosives: "#ff0000", //red
   Gear: "#3f2104", //dark brown
-  Food: "#c7ec77", //light green
+  Food: "#1f9907", //light green
   Meds: "#ffb6c1", //light pink
   Tool: "#2b5d8b", //blue
   Misc: "#221e1e", //Black
   Junk: "#7721ee", //saddle brown
+  Bag: "#ffff00", //magenta
 });
 
 const DEFAULT_CATEGORY_COLOR = "#718071";
 
 //descriptions currently are tests
 const ITEM_DEFINITIONS = [
+  //bag
+  { id: "backpack", name: "Backpack", load: 5, requirement: 1, category: "Bag",
+    description: " A leather, burlap, or cloth bag with straps or a sling to grant you more space to store items on you. ", 
+    properties: { Space: 55 } },
+  { id: "camp-backpack", name: "Camping Backpack", load: 5, requirement: 1, category: "Bag",
+    description: "This large, heavy duty backpack has nylon strings made for tightening, a waist belt to help balance, many pockets, and an overhead compartment for larger storage. ", 
+    properties: { Space: 105 } },
+  { id: "bandolier", name: "Bandolier", load: 5, requirement: 1, category: "Bag",
+    description: "This pocketed strap fits across any part of the body to allow for additional items to be carried. It is not considered a bag allowing you to wear it and a backpack without becoming encumbered.", 
+    properties: { Space: 30 } },
   //armor
   //note, armor load is based on if the user is wearing the armor 
   { id: "cloth-armor", name: "Cloth Armor", load: 2, requirement: 1, category: "Armor", 
