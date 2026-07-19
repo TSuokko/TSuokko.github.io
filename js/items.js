@@ -676,20 +676,144 @@ const ITEM_DEFINITIONS = [
       TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
     }
   },
-  { id: "flamer", name: "Flamer", load: 60, requirement: 7, category: "Guns" },
-  { id: "minigun", name: "Minigun", load: 90, requirement: 9, category: "Guns" },
-  { id: "fat-man", name: "Fat Man", load: 30, requirement: 5, category: "Guns" },
-  { id: "missile-launcher", name: "Missile Launcher", load: 50, requirement: 7, category: "Guns" },
+  {
+    id: "flamer", name: "Flamer", load: 60, requirement: 7, category: "Guns",
+    properties: {
+      Ammo: "Fuel, 5 rounds", AP: 6, Damage: "2d10 Fire", Range: "60ft. line,10 feet wide, or a 20 ft cone.", Crit: "-",
+      AreaOfEffect: "When you attack with a weapon that has this property, you do not make an attack roll. Instead you use the required ammo and any creatures or objects in range take the weapon's damage when the attack hits. You do not add your Agility modifier to this damage.",
+      Incendiary: "When you deal damage to a target creature's hit points, they gain the Burning condition. If an attack with a ranged weapon with this property misses, the projectile may land nearby and alight any flammable objects. Additionally, any flammable objects hit by a weapon with this property immediately burst into flames.",
+      SlowReload: "Reloading a weapon with this property costs 8 AP instead of 6.",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "minigun", name: "Minigun", load: 90, requirement: 9, category: "Guns",
+    properties: {
+      Ammo: "5mm, 120 rounds (uses 10 per attack)", AP: 6, Damage: "5d6 Ballistic", Range: "PER x15/x40", Crit: "20, +2d6",
+      Automatic: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
+      AdditionalAttacks: 2,
+      Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
+      Durable: "A weapon with this property does not gain decay from attack rolls.",
+      SlowReload: "Reloading a weapon with this property costs 8 AP instead of 6.",
+      Spread: "When you attack a target in the second range increment of a weapon that has this property, you also target each creature and object within 5 feet of the target",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "fat-man", name: "Fat Man", load: 30, requirement: 5, category: "Guns",
+    properties: {
+      Ammo: "Mini Nuke, 1 round", AP: 6, Damage: "12d10 Explosive, 30ft radius and 2 levels of radiation in a 60ft radius", Range: "120 feet", Crit: "-",
+      AreaOfEffect: "When you attack with a weapon that has this property, you do not make an attack roll. Instead you use the required ammo and any creatures or objects in range take the weapon's damage when the attack hits. You do not add your Agility modifier to this damage.",
+      Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
+      Durable: "A weapon with this property does not gain decay from attack rolls.",
+      SlowReload: "Reloading a weapon with this property costs 8 AP instead of 6.",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "missile-launcher", name: "Missile Launcher", load: 50, requirement: 7, category: "Guns",
+    properties: {
+      Ammo: "Missile, 1 round", AP: 6, Damage: "10d6 Explosive, 10ft radius", Range: "x10/x40", Crit: "-",
+      AreaOfEffect: "When you attack with a weapon that has this property, you do not make an attack roll. Instead you use the required ammo and any creatures or objects in range take the weapon's damage when the attack hits. You do not add your Agility modifier to this damage.",
+      Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
+      Durable: "A weapon with this property does not gain decay from attack rolls.",
+      SlowReload: "Reloading a weapon with this property costs 8 AP instead of 6.",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
   //energy
-  { id: "laser-pistol", name: "Laser Pistol", load: 5, requirement: 1, category: "Energy", description: "A compact directed-energy sidearm with no conventional projectile.", properties: { Ammunition: "Energy cell", Damage: "Energy", Grip: "One-handed" } },
-  { id: "laser-rifle", name: "Laser Rifle", load: 8, requirement: 2, category: "Energy" },
-  { id: "plasma-pistol", name: "Plasma Pistol", load: 4, requirement: 2, category: "Energy" },
-  { id: "plasma-rifle", name: "Plasma Rifle", load: 8, requirement: 3, category: "Energy" },
-  { id: "tri-beam", name: "Tri-Beam", load: 10, requirement: 2, category: "Energy" },
-  { id: "gauss-pistol", name: "Gauss Pistol", load: 14, requirement: 5, category: "Energy" },
-  { id: "gauss-rifle", name: "Gauss Rifle", load: 20, requirement: 5, category: "Energy" },
-  { id: "cryolator", name: "Cryolator", load: 20, requirement: 6, category: "Energy" },
-  { id: "tesla-cannon", name: "Tesla Cannon", load: 12, requirement: 4, category: "Energy" },
+  {
+    id: "laser-pistol", name: "Laser Pistol", load: 5, requirement: 1, category: "Energy",
+    properties: {
+      Ammo: "1 Energy Cell, 30 rounds", AP: 4, Damage: "1d8 Laser + PER Mod", Range: "x10/x20", Crit: "20, x2, applies Burning condition.",
+      SemiAutomatic: " If you spend AP to attack with this weapon directly after spending AP to attack with it on the same turn, you can make another attack without spending any AP."
+    }
+  },
+  {
+    id: "laser-rifle", name: "Laser Rifle", load: 8, requirement: 2, category: "Energy",
+    properties: {
+      Ammo: "1 Energy Cell, 24 rounds", AP: 5, Damage: "2d6 Laser + PER Mod", Range: "x12/x24", Crit: "20, x2, applies Burning condition.",
+      Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
+      Unwieldy: "If you attack with a ranged weapon that has this property with only one hand, you have disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "tri-beam", name: "Tri-Beam Laser", load: 10, requirement: 2, category: "Energy",
+    properties: {
+      Ammo: "1 Energy Cell, 8 rounds", AP: 5, Damage: "3d6 Laser + PER Mod", Range: "x4/x8", Crit: "20, 5d6 Laser and applies Burning condition.",
+      Spread: "When you attack a target in the second range increment of a weapon that has this property, you also target each creature and object within 5 feet of the target",
+      Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
+      Unwieldy: "If you attack with a ranged weapon that has this property with only one hand, you have disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "plasma-pistol", name: "Plasma Pistol", load: 4, requirement: 2, category: "Energy",
+    properties: {
+      Ammo: "1 Microfusion Cell, 16 rounds", AP: 5, Damage: "1d12 Plasma + PER Mod", Range: "x6/x10", Crit: "20, x3",
+      Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
+      Kickback: "If you hold a this with one hand, both the short and long range are halved."
+    }
+  },
+  {
+    id: "plasma-rifle", name: "Plasma Rifle", load: 8, requirement: 3, category: "Energy",
+    properties: {
+      Ammo: "1 Microfusion Cell, 12 rounds", AP: 6, Damage: "2d8 Plasma + PER Mod", Range: "x8/x12", Crit: "20, x3",
+      Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
+      Debilitating: "When you deal damage to a creature's hit points from a targeted attack with a weapon that has this property, you roll twice on the conditions table and apply both conditions. If you roll the same condition twice, the effects stack.",
+      Unwieldy: "If you attack with a ranged weapon that has this property with only one hand, you have disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "gauss-pistol", name: "Gauss Pistol", load: 14, requirement: 5, category: "Energy",
+    properties: {
+      Ammo: "2mm EC, 12 rounds", AP: 3, Damage: "1d10 Ballistic + PER Mod", Range: "x8/x16", Crit: "20, +2d10",
+      Charge: "When you spend action points to make an attack roll with a weapon that has this property, you can spend 3 additional AP to add one additional damage dice to the damage. Alternatively, you can spend 6 additional AP to add two additional damage dice. Whenever you charge a weapon, you add your modifier twice to the damage total instead of once.",
+      Kickback: "If you hold a this with one hand, both the short and long range are halved.",
+      Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
+      Unstable: "A weapon with this property gains a level of decay every five times you reload it instead of ten."
+    }
+  },
+  {
+    id: "gauss-rifle", name: "Gauss Rifle", load: 20, requirement: 5, category: "Energy",
+    properties: {
+      Ammo: "2mm EC, 6 rounds", AP: 3, Damage: "1d12 Ballistic + PER Mod", Range: "x10/x20", Crit: "20, +4d12",
+      Charge: "When you spend action points to make an attack roll with a weapon that has this property, you can spend 3 additional AP to add one additional damage dice to the damage. Alternatively, you can spend 6 additional AP to add two additional damage dice. Whenever you charge a weapon, you add your modifier twice to the damage total instead of once.",
+      Kickback: "If you hold a this with one hand, both the short and long range are halved.",
+      Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll.",
+      Unstable: "A weapon with this property gains a level of decay every five times you reload it instead of ten."
+    }
+  },
+  {
+    id: "cryolator", name: "Cryolator", load: 20, requirement: 6, category: "Energy",
+    properties: {
+      Ammo: "1 Cryocell, 3 rounds", AP: 5, Damage: "3d10 Cryo", Range: "20ft cone", Crit: "20, x2",
+      AreaOfEffect: "When you attack with a weapon that has this property, you do not make an attack roll. Instead you use the required ammo and any creatures or objects in range take the weapon's damage when the attack hits. You do not add your Agility modifier to this damage.",
+      Freezing: "When a creature takes damage from a weapon with this property, they gain the Slowed condition until the end of their next turn.",
+      SlowReload: "Reloading a weapon with this property costs 10 AP instead of 6. If you and another creature are within 5 feet of the weapon, you can instead spend 5 AP to reload the weapon so long as they spend 5 AP on their previous turn to help you. If your maximum AP is 9 or lower and you reload a weapon with this property and another creature is not helping you; you must spend all your AP, then you must spend any leftover AP on your next turn to reload the weapon",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "tesla-cannon", name: "Tesla Cannon", load: 12, requirement: 4, category: "Energy",
+    properties: {
+      Ammo: "1 Microfusion Cell, 5 rounds", AP: 3, Damage: "1d8 Electricity + PER Mod", Range: "30 feet", Crit: "20, 1d8 and applies Dazed condition.",
+      Arc: "When you deal damage to a creature with a weapon that has this property, the energy leaps to another nearby creature. Each creature within 20 feet of the previously damaged creature takes the same damage. The energy leaps so long as there is a new target within 20 feet of the previous one.",
+      Charge: "When you spend action points to make an attack roll with a weapon that has this property, you can spend 3 additional AP to add one additional damage dice to the damage. Alternatively, you can spend 6 additional AP to add two additional damage dice. Whenever you charge a weapon, you add your modifier twice to the damage total instead of once.",
+      Electromagnetic: "When a robot, synth, or creature made of inorganic material takes damage from a weapon with this property, the damage is doubled for them.",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "gatling-laser", name: "Gatling Laser", load: 50, requirement: 5, category: "Energy",
+    properties: {
+      Ammo: "1 Fusion Core, 100 rounds", AP: 6, Damage: "2d10 Laser + PER Mod", Range: "x30/x30", Crit: "20, +1d10 and applies Burning condition.",
+      Automatic: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
+      AdditionalAttacks: 4,
+      Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
+      Unwieldy: "If you attack with a ranged weapon that has this property with only one hand, you have disadvantage on the attack roll.",
+    }
+  },
   //explosives
   {
     id: "dynamite", name: "Dynamite", load: 3, requirement: 1, category: "Explosives",
@@ -699,17 +823,111 @@ const ITEM_DEFINITIONS = [
       Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead."
     }
   },
-  { id: "molotov", name: "Molotov Cocktail", load: 4, requirement: 1, category: "Explosives" },
-  { id: "frag-grenade", name: "Frag Grenade", load: 3, requirement: 1, category: "Explosives" },
-  { id: "plasma-grenade", name: "Plasma Grenade", load: 4, requirement: 1, category: "Explosives" },
-  { id: "pulse-grenade", name: "Pulse Grenade", load: 4, requirement: 1, category: "Explosives" },
-  { id: "cryo-grenade", name: "Cryo Grenade", load: 4, requirement: 1, category: "Explosives" },
-  { id: "frag-mine", name: "Frag Mine", load: 8, requirement: 1, category: "Explosives" },
-  { id: "plasma-mine", name: "Plasma Mine", load: 8, requirement: 1, category: "Explosives" },
-  { id: "pulse-mine", name: "Pulse Mine", load: 6, requirement: 1, category: "Explosives" },
-  { id: "cryo-mine", name: "Cryo Mine", load: 8, requirement: 1, category: "Explosives" },
-  { id: "nuke-mine", name: "Nuke Mine", load: 22, requirement: 1, category: "Explosives" },
-  { id: "c4", name: "C4 Explosive", load: 12, requirement: 1, category: "Explosives" },
+  {
+    id: "molotov", name: "Molotov Cocktail", load: 4, requirement: 1, category: "Explosives",
+    properties: {
+      AP: 6, Damage: "3d10 fire", Range: "STR x6", Area: "5ft radius",
+      Incendiary: "When a creature takes damage from an explosive with this property, they gain the Burning condition.",
+      Shattering: "The explosive always detonates at the end of your turn regardless of your explosive roll."
+    }
+  },
+  {
+    id: "frag-grenade", name: "Frag Grenade", load: 3, requirement: 1, category: "Explosives",
+    properties: {
+      AP: 5, Damage: "4d6 explosive", Range: "STR x10", Area: "5ft/20ft radius",
+      Deafening: "Each creature in 10ft becomes deafened for a number of rounds equal to 4 - their Endurance ability modifier to a minimum of 1.",
+      Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
+      Dismembering: "When an explosive with this property deals damage to hit points of the creature in its first range (ie:the creature takes the full damage), they gain two random leg conditions, or a random arm condition if they are prone when the explosive detonates. If the explosive deals enough damage to bring the target creature to 0 hit points, the limb is severed instead."
+    }
+  },
+  {
+    id: "plasma-grenade", name: "Plasma Grenade", load: 4, requirement: 1, category: "Explosives",
+    properties: {
+      AP: 4, Damage: "4d8 plasma", Range: "STR x10", Area: "10ft radius"
+    }
+  },
+  /**PulseGrenade 150c 4AP 2d8electricity STRx10 15ft.radius Electromagnetic. */
+  {
+    id: "pulse-grenade", name: "Pulse Grenade", load: 4, requirement: 1, category: "Explosives",
+    properties: {
+      AP: 4, Damage: "2d8 electricity", Range: "STR x10", Area: "15ft radius",
+      Electromagnetic: "When a robot, synth, or creature made of inorganic material takes damage from an explosive with this property, the damage is doubled for them."
+    }
+  },
+  {
+    id: "incendiary-grenade", name: "Incendiary Grenade", load: 3, requirement: 1, category: "Explosives",
+    properties: {
+      AP: 5, Damage: "2d6 explosive and 3d6 fire", Range: "STR x10", Area: "5ft/15ft radius",
+      Deafening: "Each creature in 5ft becomes deafened for a number of rounds equal to 4 - their Endurance ability modifier to a minimum of 1.",
+      Incendiary: "When a creature takes damage from an explosive with this property, they gain the Burning condition."
+    }
+  },
+  {
+    id: "cryo-grenade", name: "Cryo Grenade", load: 4, requirement: 1, category: "Explosives",
+    properties: {
+      AP: 4, Damage: "2d6 explosive and 3d6 cold", Range: "STR x10", Area: "5ft/10ft radius",
+      Deafening: "Each creature in 5ft becomes deafened for a number of rounds equal to 4 - their Endurance ability modifier to a minimum of 1.",
+      Freezing: "When a creature takes damage from an explosive with this property, they gain the Slowed condition until the end of their next turn."
+    }
+  },
+  {
+    id: "flash-bang", name: "Flash Bang", load: 3, requirement: 1, category: "Explosives",
+    properties: {
+      AP: 5, Damage: "1 dmg explosive", Range: "STR x10", Area: "20ft radius",
+      Blinding: "Each creature in 20ft becomes blinded for a number of rounds equal to 4 - their Endurance ability modifier to a minimum of 1.",
+      Deafening: "Each creature in 20ft becomes deafened for a number of rounds equal to 4 - their Endurance ability modifier to a minimum of 1."
+    }
+  },
+  {
+    id: "frag-mine", name: "Frag Mine", load: 8, requirement: 1, category: "Explosives",
+    properties: {
+      AP: 6, Damage: "6d6 explosive", Area: "2.5ft/10ft radius",
+      Proximity: "If a creature moves into the area, the mine triggers and they take damage to their Hit Points.",
+      Deafening: "Each creature in 10ft becomes deafened for a number of rounds equal to 4 - their Endurance ability modifier to a minimum of 1.",
+      Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
+      Dismembering: "When an explosive with this property deals damage to hit points of the creature in its first range (ie:the creature takes the full damage), they gain two random leg conditions, or a random arm condition if they are prone when the explosive detonates. If the explosive deals enough damage to bring the target creature to 0 hit points, the limb is severed instead."
+    }
+  },
+  {
+    id: "plasma-mine", name: "Plasma Mine", load: 8, requirement: 1, category: "Explosives",
+    properties: {
+      AP: 6, Damage: "4d8 plasma + PER Mod", Area: "10ft radius",
+      Proximity: " An explosive with this property does not detonate after any allotted time has passed, but instead; when a creature enters the proximity area of the explosive for the first time on a turn; it detonates at the end of that creature's turn. Each explosive’s proximity area is a 10 foot radius.",
+    }
+  },
+  {
+    id: "pulse-mine", name: "Pulse Mine", load: 6, requirement: 1, category: "Explosives",
+    properties: {
+      AP: 6, Damage: "3d8 electricity + PER Mod", Area: "20ft radius",
+      Proximity: " An explosive with this property does not detonate after any allotted time has passed, but instead; when a creature enters the proximity area of the explosive for the first time on a turn; it detonates at the end of that creature's turn. Each explosive’s proximity area is a 10 foot radius.",
+      Electromagnetic: "When a robot, synth, or creature made of inorganic material takes damage from an explosive with this property, the damage is doubled for them."
+    }
+  },
+  {
+    id: "cryo-mine", name: "Cryo Mine", load: 8, requirement: 1, category: "Explosives",
+    properties: {
+      AP: 6, Damage: "4d6 cold + PER Mod", Area: "10ft radius",
+      Proximity: " An explosive with this property does not detonate after any allotted time has passed, but instead; when a creature enters the proximity area of the explosive for the first time on a turn; it detonates at the end of that creature's turn. Each explosive’s proximity area is a 10 foot radius.",
+      Freezing: "When a creature takes damage from an explosive with this property, they gain the Slowed condition until the end of their next turn."
+    }
+  },
+  {
+    id: "c4", name: "C4 Explosive", load: 12, requirement: 1, category: "Explosives",
+    properties: {
+      AP: 6, Damage: "15d6 explosive + 10", Area: "5ft/25ft radius",
+      Deafening: "Each creature in 10ft becomes deafened for a number of rounds equal to 4 - their Endurance ability modifier to a minimum of 1.",
+      Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
+      Dismembering: "When an explosive with this property deals damage to hit points of the creature in its first range (ie:the creature takes the full damage), they gain two random leg conditions, or a random arm condition if they are prone when the explosive detonates. If the explosive deals enough damage to bring the target creature to 0 hit points, the limb is severed instead."
+    }
+  },
+  {
+    id: "nuke-mine", name: "Nuke Mine", load: 22, requirement: 1, category: "Explosives",
+    properties: {
+      AP: 6, Damage: "12d10 explosive + 10 and two levels of radiation", Area: "45ft radius",
+      Proximity: " An explosive with this property does not detonate after any allotted time has passed, but instead; when a creature enters the proximity area of the explosive for the first time on a turn; it detonates at the end of that creature's turn. Each explosive’s proximity area is a 10 foot radius.",
+      Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead."
+    }
+  },
   //gear
   {
     id: "bear-trap", name: "Bear Trap", load: 30, requirement: 1, category: "Gear",
@@ -805,10 +1023,29 @@ const ITEM_DEFINITIONS = [
     id: "rad-away", name: "Rad-Away", load: 4, requirement: 1, category: "Meds",
     description: "You can spend 15 minutes to use this medicinal item on yourself or a creature within 5 feet of you. At the end of the hour, the affected creature removes two levels of radiation but gains one level of thirst."
   },
+  {
+    id: "fixer", name: "Fixer (5x Pills)", load: 1, requirement: 1, category: "Meds",
+    description: "You can spend 4 AP to consume it. When you do; you become cured of one addiction of your choice. However, you gain one level of dehydration, hunger, and exhaustion."
+  },
+  {
+    id: "rad-x", name: "Rad-X (10x Pills)", load: 1, requirement: 1, category: "Meds",
+    description: "You can consume this small pill with 3 AP. If you do; your radiation DC decreases by 2 for the next 3 hours. You can consume a total of three Rad-X at one time to gain their benefits, if you consume more than three you do not gain any additional benefits."
+  },
   { id: "pills", name: "Pills", load: 1, requirement: 1, category: "Meds" },
   {
     id: "stimpak", name: "Stimpak", load: 4, requirement: 1, category: "Meds",
     description: "You can spend 4 AP to use this medicinal item on yourself or another creature so long as they are next to you. If that creature is a human, mutant, abomination, animal, or insect; they heal a number of hit points equal to their healing rate. If that creature is a ghoul; they heal a number of hit points equal to half their healing rate."
+  },
+  /**Super Stimpak. You can spend 4 AP to use this
+medicinal item on yourself or another creature so long as
+they are next to you. If that creature is a human, mutant,
+gen-2 synth, abomination, animal, or insect; they heal a
+number of hit points equal to double their healing rate. If
+that creature is a ghoul; they heal a number of hit points
+equal to their healing rate. */
+  {
+    id: "super-stimpak", name: "Super Stimpak", load: 6, requirement: 1, category: "Meds",
+    description: "You can spend 4 AP to use this medicinal item on yourself or another creature so long as they are next to you. If that creature is a human, mutant, gen-2 synth, abomination, animal, or insect; they heal a number of hit points equal to double their healing rate. If that creature is a ghoul; they heal a number of hit points equal to their healing rate."
   },
   {
     id: "robot-fix-kit", name: "Quick Fix-it 1.0", load: 4, requirement: 1, category: "Meds",
@@ -818,6 +1055,10 @@ const ITEM_DEFINITIONS = [
   { id: "chems", name: "Chems (10x Pills)", load: 1, requirement: 1, category: "Meds" },
   { id: "overclock-program", name: "Overclock Program 10x", load: 1, requirement: 1, category: "Meds" },
   { id: "cigs", name: "Cigarettes 10x", load: 1, requirement: 1, category: "Meds" },
+  {
+    id: "healing-powder", name: "Healing Powder", load: 3, requirement: 1, category: "Meds",
+    description: "You can spend 6 AP to use this medicinal item on yourself or another creature so long as they are next to you. If that creature is a human, mutant, abomination, animal, or insect; at the start of each of their turns they heal a number of hit points equal to half their healing rate (rounded down). After healing for three rounds, the effects cease. Ghouls, robots, and gen-2 synths are unaffected by healing powder."
+  },
   //junk
   { id: "ad-junk", name: "Adhesive Junk", load: 1, requirement: 1, category: "Junk" },
   { id: "ac-junk", name: "Acid Junk", load: 1, requirement: 1, category: "Junk" },
