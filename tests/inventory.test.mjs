@@ -6,6 +6,7 @@ import {
   cellUsesBagSpace,
   cellWithinCapacity,
   createInventory,
+  consumeAmmo,
   cycleItemShape,
   flipItem,
   itemDimensions,
@@ -18,6 +19,8 @@ import {
   removeItem,
   renameItem,
   rotateItem,
+  setItemDecay,
+  totalAmmo,
 } from "../js/inventory.js";
 
 const item = (id, load) => ({ id, load });
@@ -74,6 +77,8 @@ test("invalid moves preserve prior state and valid moves retain identity", () =>
     flipped: false,
     shapeIndex: 0,
     customName: null,
+    decay: 0,
+    ammoQuantity: null,
   });
   assert.equal(moveItem(inventory, "one", 2, 0).placements[0].row, 2);
 });
@@ -184,4 +189,58 @@ test("rename changes only the selected item instance", () => {
   assert.equal(renamed.placements[0].customName, "Old Reliable");
   assert.equal(renamed.placements[1].customName, null);
   assert.equal(renameItem(inventory, "missing", "Name"), null);
+});
+
+test("Decay defaults to zero and changes only the selected item instance", () => {
+  const first = placeItem(createInventory(3), item("knife", 2), 0, 0, false, "one");
+  const inventory = placeItem(first, item("knife", 2), 1, 0, false, "two");
+  const decayed = setItemDecay(inventory, "one", 10);
+
+  assert.equal(inventory.placements[0].decay, 0);
+  assert.equal(decayed.placements[0].decay, 10);
+  assert.equal(decayed.placements[1].decay, 0);
+  assert.equal(inventory.placements[0].decay, 0);
+});
+
+test("Decay accepts only integer levels from zero through ten", () => {
+  const inventory = placeItem(createInventory(3), item("knife", 2), 0, 0, false, "one");
+
+  assert.equal(setItemDecay(inventory, "one", 5).placements[0].decay, 5);
+  assert.equal(setItemDecay(inventory, "one", -1), null);
+  assert.equal(setItemDecay(inventory, "one", 11), null);
+  assert.equal(setItemDecay(inventory, "one", 1.5), null);
+  assert.equal(setItemDecay(inventory, "one", "5"), null);
+  assert.equal(setItemDecay(inventory, "missing", 5), null);
+});
+
+test("Ammo placements start full and compatible totals include partial bundles", () => {
+  const ammo = { id: "9mm", load: 1, category: "Ammo", properties: { Quantity: 10 } };
+  const first = placeItem(createInventory(3), ammo, 0, 0, false, "one");
+  const inventory = placeItem(first, ammo, 0, 1, false, "two", false, 0, null, true, 0, 4);
+
+  assert.equal(first.placements[0].ammoQuantity, 10);
+  assert.equal(totalAmmo(inventory, "9mm"), 14);
+  assert.equal(totalAmmo(inventory, "other"), 0);
+});
+
+test("Ammo consumption drains partial bundles first and removes empty blocks", () => {
+  const ammo = { id: "9mm", load: 1, category: "Ammo", properties: { Quantity: 10 } };
+  const first = placeItem(createInventory(3), ammo, 0, 0, false, "full");
+  const inventory = placeItem(first, ammo, 0, 1, false, "partial", false, 0, null, true, 0, 4);
+  const consumed = consumeAmmo(inventory, "9mm", 6);
+
+  assert.equal(consumed.placements.some((placement) => placement.instanceId === "partial"), false);
+  assert.equal(consumed.placements.find((placement) => placement.instanceId === "full").ammoQuantity, 8);
+  assert.equal(totalAmmo(consumed, "9mm"), 8);
+  assert.equal(totalAmmo(inventory, "9mm"), 14);
+});
+
+test("Ammo consumption rejects invalid or unavailable amounts", () => {
+  const ammo = { id: "9mm", load: 1, category: "Ammo", properties: { Quantity: 10 } };
+  const inventory = placeItem(createInventory(3), ammo, 0, 0, false, "ammo");
+
+  assert.equal(consumeAmmo(inventory, "9mm", 0), null);
+  assert.equal(consumeAmmo(inventory, "9mm", 11), null);
+  assert.equal(consumeAmmo(inventory, "9mm", 1.5), null);
+  assert.equal(consumeAmmo(inventory, "missing", 1), null);
 });

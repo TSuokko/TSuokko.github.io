@@ -316,61 +316,61 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "cattle-prod", name: "Cattle Prod", load: 5, requirement: 3, category: "Melee",
+    id: "cattle-prod", name: "Cattle Prod", load: 5, requirement: 3, category: "Melee", AmmoId: "ECammo",
     properties: {
       AP: 4, Damage: "1d4 Bludgeoning, 2d8 electricity", Crit: "20, Dazed",
-      Ammo: "Energy Cells, 10 rounds.",
+      Reload: "Energy Cells, 10 rounds.",
       Depleted: "1d4 bludgeoning."
     }
   },
   {
-    id: "ripper", name: "Ripper", load: 5, requirement: 6, category: "Melee",
+    id: "ripper", name: "Ripper", load: 5, requirement: 6, category: "Melee", AmmoId: "ECammo",
     properties: {
       AP: 3, Damage: "2d8 Slashing", Crit: "20, +3d8",
       Debilitating: "When you deal damage to a creature's hit points from a targeted attack, you roll twice on the conditions table and apply both conditions. If you roll the same condition twice, the effects stack.",
       Mangle: " When you deal damage to a creature's hit points from a targeted attack, the target gains two levels of bleeding or two levels of short circuit if they are a robot or synth.",
-      Ammo: "Energy Cells, 10 rounds.",
+      Reload: "Energy Cells, 10 rounds.",
       Depleted: "1d4 bludgeoning."
     }
   },
   {
-    id: "buzzsaw", name: "Handy Buzz blade", load: 10, requirement: 5, category: "Melee",
+    id: "buzzsaw", name: "Handy Buzz blade", load: 10, requirement: 5, category: "Melee", AmmoId: "ECammo",
     properties: {
       AP: 5, Damage: "1d10 Slashing", Crit: "20, x3",
       Weighted: "When you roll a 1 on the damage dice with a weapon that has this property, it is a 2 instead.",
       Mangle: " When you deal damage to a creature's hit points from a targeted attack, the target gains two levels of bleeding or two levels of short circuit if they are a robot or synth.",
-      Ammo: "Energy Cells, 10 rounds.",
+      Reload: "Energy Cells, 10 rounds.",
       Depleted: "1d6 slashing."
     }
   },
   {
-    id: "chainsaw", name: "Chainsaw", load: 20, requirement: 8, category: "Melee",
+    id: "chainsaw", name: "Chainsaw", load: 20, requirement: 8, category: "Melee", AmmoId: "ECammo",
     properties: {
       AP: 6, Damage: "6d8 Slashing", Crit: "20, +6d8",
       Debilitating: "When you deal damage to a creature's hit points from a targeted attack, you roll twice on the conditions table and apply both conditions. If you roll the same condition twice, the effects stack.",
       TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll.",
       Mangle: " When you deal damage to a creature's hit points from a targeted attack, the target gains two levels of bleeding or two levels of short circuit if they are a robot or synth.",
-      Ammo: "Energy Cells, 5 rounds.",
+      Reload: "Energy Cells, 5 rounds.",
       Depleted: "1d8 bludgeoning"
     }
   },
   {
-    id: "drill", name: "Drill", load: 8, requirement: 5, category: "Melee",
+    id: "drill", name: "Drill", load: 8, requirement: 5, category: "Melee", AmmoId: "ECammo",
     properties: {
       AP: 4, Damage: "1d8 slashing", Crit: "19-20, (use targeted attacks)",
       Debilitating: "When you deal damage to a creature's hit points from a targeted attack, you roll twice on the conditions table and apply both conditions. If you roll the same condition twice, the effects stack.",
       Mangle: " When you deal damage to a creature's hit points from a targeted attack, the target gains two levels of bleeding or two levels of short circuit if they are a robot or synth.",
       Precise: "When you deal damage to a creature's hitpoints from a critical hit with a weapon that has this property, the target gains two levels of bleeding or two levels of short circuit if they are a robot or synth.",
-      Ammo: "Energy Cells, 20 rounds.",
+      Reload: "Energy Cells, 20 rounds.",
       Depleted: "1d4 piercing."
     }
   },
   {
-    id: "plasma-cutter", name: "Plasma Cutter", load: 12, requirement: 5, category: "Melee",
+    id: "plasma-cutter", name: "Plasma Cutter", load: 12, requirement: 5, category: "Melee", AmmoId: "MFammo",
     properties: {
       AP: 5, Damage: "4d8 plasma", Crit: "20,  Applies severe limb conditions of your choice.",
       Dismember: "When you deal damage to a creature's hit points from a targeted attack, you roll twice on the conditions table and apply both conditions. If you roll the same condition twice, the effects stack.",
-      Ammo: "Microfusion Cells, 5 rounds.",
+      Reload: "Microfusion Cells, 5 rounds.",
       Depleted: "1d6 bludgeoning"
     }
   },
@@ -409,41 +409,42 @@ const ITEM_DEFINITIONS = [
     },
   },
   {
-    id: "power-fist", name: "Power Fist", load: 12, requirement: 6, category: "Melee",
+    id: "power-fist", name: "Power Fist", load: 12, requirement: 6, category: "Melee", AmmoId: "ECammo",
     properties: {
       AP: 4, Damage: "4d6 Bludgeoning", Crit: "20, x2, Prone or knockback 15 feet.",
       Debilitating: "When you deal damage to a creature's hit points from a targeted attack, you roll twice on the conditions table and apply both conditions. If you roll the same condition twice, the effects stack.",
       Weighted: "When you roll a 1 on the damage dice with a weapon that has this property, it is a 2 instead.",
-      Ammo: "Energy Cells, 20 rounds.",
+      Reload: "Energy Cells, 20 rounds.",
       Depleted: "1d6 bludgeoning."
     }
   },
   //ammo
-  { id: "357ammo", name: ".357 Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "50ammo", name: ".50 Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "308ammo", name: ".308 Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "44ammo", name: ".44 Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "45ammo", name: ".45 Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "10mmammo", name: "10mm Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "9mmammo", name: "9mm Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "12g-ammo", name: "12 gauge Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "127mmammo", name: "12.7mm Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "556ammo", name: "5.56mm Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "Flareammo", name: "Flare Ammo 10x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "ECammo", name: "Energy Cell Ammo 30x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "MFammo", name: "Microfusion Ammo 30x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "cryo-ammo", name: "Cryo Cell Ammo 30x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "Fusion-core", name: "Fusion Core", load: 1, requirement: 1, category: "Ammo" },
-  { id: "2mmEC-ammo", name: "2mm EC ammo 30x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "Gamme-cell-ammo", name: "Gamma Cell ammo 30x", load: 1, requirement: 1, category: "Ammo" },
-  { id: "Fuel", name: "Fuel", load: 20, requirement: 1, category: "Ammo" },
-  { id: "Mini-nuke", name: "Mini Nuke", load: 12, requirement: 1, category: "Ammo" },
-  { id: "Missile", name: "Missile", load: 10, requirement: 1, category: "Ammo" },
+  { id: "357ammo", name: ".357 Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
+  { id: "50ammo", name: ".50 Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
+  { id: "308ammo", name: ".308 Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
+  { id: "44ammo", name: ".44 Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
+  { id: "45ammo", name: ".45 Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
+  { id: "5mmammo", name: "5mm Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
+  { id: "10mmammo", name: "10mm Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
+  { id: "9mmammo", name: "9mm Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
+  { id: "12g-ammo", name: "12 gauge Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
+  { id: "127mmammo", name: "12.7mm Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
+  { id: "556ammo", name: "5.56mm Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
+  { id: "Flareammo", name: "Flare Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
+  { id: "ECammo", name: "Energy Cell Ammo 30x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 30 } },
+  { id: "MFammo", name: "Microfusion Ammo 30x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 30 } },
+  { id: "cryo-ammo", name: "Cryo Cell Ammo 30x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 30 } },
+  { id: "Fusion-core", name: "Fusion Core", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 1 } },
+  { id: "2mmEC-ammo", name: "2mm EC ammo 30x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 30 } },
+  { id: "Gamma-cell-ammo", name: "Gamma Cell ammo 30x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 30 } },
+  { id: "Fuel", name: "Fuel", load: 20, requirement: 1, category: "Ammo", properties: { Quantity: 1 } },
+  { id: "Mini-nuke", name: "Mini Nuke", load: 12, requirement: 1, category: "Ammo", properties: { Quantity: 1 } },
+  { id: "Missile", name: "Missile", load: 10, requirement: 1, category: "Ammo", properties: { Quantity: 1 } },
   //guns
   {
-    id: "flare-gun", name: "Flare Gun", load: 3, requirement: 1, category: "Guns",
+    id: "flare-gun", name: "Flare Gun", load: 3, requirement: 1, category: "Guns", AmmoId: "Flareammo",
     properties: {
-      Ammo: "Flare, 1 round", AP: 4, Damage: "1d4 Fire", Range: "PER x4/x10", Crit: "20, +1d4",
+      Reload: "Flare, 1 round", AP: 4, Damage: "1d4 Fire", Range: "PER x4/x10", Crit: "20, +1d4",
       Incendiary: "When you deal damage to a target creature's hit points, they gain the Burning condition. If an attack with a ranged weapon with this property misses, the projectile may land nearby and alight any flammable objects. Additionally, any flammable objects hit by a weapon with this property immediately burst into flames.",
       QuickReload: "Reloading a weapon with this property costs 4 AP instead of 6."
     }
@@ -451,86 +452,86 @@ const ITEM_DEFINITIONS = [
   {
     id: "acid-soaker", name: "Acid Soaker", load: 5, requirement: 1, category: "Guns",
     properties: {
-      Ammo: "Acid, 20 rounds", AP: 4, Damage: "1 Acid", Range: "30 ft.", Crit: "20, +1d4",
+      Reload: "Acid, 20 rounds", AP: 4, Damage: "1 Acid", Range: "30 ft.", Crit: "20, +1d4",
       Corrosive: "When you deal damage to a creature's hit points with a weapon that has this property, their armor gains one level of decay. If they have natural armor, their AC and DT decrease by 1 to a maximum of 3 until their hit points are returned to full. Power Armor is unaffected by this condition.",
     }
   },
   {
-    id: "pipe-pistol", name: "Pipe Pistol", load: 6, requirement: 3, category: "Guns",
+    id: "pipe-pistol", name: "Pipe Pistol", load: 6, requirement: 3, category: "Guns", AmmoId: "9mmammo",
     properties: {
-      Ammo: "9mm, 12 rounds", AP: 5, Damage: "1d4 Ballistic", Range: "PER x6/x10", Crit: "20, +1d4",
+      Reload: "9mm, 12 rounds", AP: 5, Damage: "1d4 Ballistic", Range: "PER x6/x10", Crit: "20, +1d4",
       Kickback: "If you hold a this with one hand, both the short and long range are halved.",
       Breakable: "The weapon gains a level of decay when you roll a 3 or lower on an attack roll.",
       Semiautomatic: "If you spend AP to attack with this weapon directly after spending AP to attack with it on the same turn, you can make another attack without spending any AP."
     }
   },
   {
-    id: "10mm-pistol", name: "10mm Pistol", load: 6, requirement: 4, category: "Guns",
+    id: "10mm-pistol", name: "10mm Pistol", load: 6, requirement: 4, category: "Guns", AmmoId: "10mmammo",
     properties: {
-      Ammo: "10mm, 12 rounds", AP: 5, Damage: "2d4 Ballistic", Range: "PER x8/x16", Crit: "19, +1d4",
+      Reload: "10mm, 12 rounds", AP: 5, Damage: "2d4 Ballistic", Range: "PER x8/x16", Crit: "19, +1d4",
       Kickback: "If you hold a this with one hand, both the short and long range are halved.",
       Sturdy: "The weapon does not decay if you throw it, and ignores the negative effects of the first 2 levels of decay."
     }
   },
   {
-    id: "9mm-pistol", name: "9mm Pistol", load: 5, requirement: 3, category: "Guns",
+    id: "9mm-pistol", name: "9mm Pistol", load: 5, requirement: 3, category: "Guns", AmmoId: "9mmammo",
     properties: {
-      Ammo: "9mm, 13 rounds", AP: 5, Damage: "1d6 Ballistic", Range: "PER x8/x12", Crit: "20, +1d6",
+      Reload: "9mm, 13 rounds", AP: 5, Damage: "1d6 Ballistic", Range: "PER x8/x12", Crit: "20, +1d6",
       Kickback: "If you hold a this with one hand, both the short and long range are halved."
     }
   },
   {
-    id: "5-56mm-pistol", name: "5.56mm Pistol", load: 7, requirement: 5, category: "Guns",
+    id: "5-56mm-pistol", name: "5.56mm Pistol", load: 7, requirement: 5, category: "Guns", AmmoId: "556ammo",
     properties: {
-      Ammo: "5.56mm, 5 rounds", AP: 4, Damage: "1d8 Ballistic", Range: "PER x5/x16", Crit: "20, x2",
+      Reload: "5.56mm, 5 rounds", AP: 4, Damage: "1d8 Ballistic", Range: "PER x5/x16", Crit: "20, x2",
       Kickback: "If you hold a this with one hand, both the short and long range are halved.",
       ManualReload: "Reloading a weapon with this property costs 6 AP instead of 4."
     }
   },
   {
-    id: "pipe-revolver", name: "Pipe Revolver", load: 5, requirement: 4, category: "Guns",
+    id: "pipe-revolver", name: "Pipe Revolver", load: 5, requirement: 4, category: "Guns", AmmoId: "44ammo",
     properties: {
-      Ammo: ".44, 6 rounds", AP: 5, Damage: "1d6 Ballistic", Range: "PER x6/x10", Crit: "20, x2",
+      Reload: ".44, 6 rounds", AP: 5, Damage: "1d6 Ballistic", Range: "PER x6/x10", Crit: "20, x2",
       Breakable: "The weapon gains a level of decay when you roll a 3 or lower on an attack roll.",
       ManualReload: "Reloading a weapon with this property costs 6 AP instead of 4."
     }
   },
   {
-    id: "357-revolver", name: ".357 Revolver", load: 4, requirement: 4, category: "Guns",
+    id: "357-revolver", name: ".357 Revolver", load: 4, requirement: 4, category: "Guns", AmmoId: "357ammo",
     properties: {
-      Ammo: ".357, 6 rounds", AP: 5, Damage: "1d8 Ballistic", Range: "PER x6/x18", Crit: "20, x3",
+      Reload: ".357, 6 rounds", AP: 5, Damage: "1d8 Ballistic", Range: "PER x6/x18", Crit: "20, x3",
       Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
       ManualReload: "Reloading a weapon with this property costs 6 AP instead of 4."
     }
   },
   {
-    id: "44-magnum", name: ".44 Magnum", load: 5, requirement: 4, category: "Guns",
+    id: "44-magnum", name: ".44 Magnum", load: 5, requirement: 4, category: "Guns", AmmoId: "44ammo",
     properties: {
-      Ammo: ".44, 6 rounds", AP: 5, Damage: "2d8 Ballistic", Range: "PER x6/x14", Crit: "20, x3",
+      Reload: ".44, 6 rounds", AP: 5, Damage: "2d8 Ballistic", Range: "PER x6/x14", Crit: "20, x3",
       Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
       ManualReload: "Reloading a weapon with this property costs 6 AP instead of 4."
     }
   },
   {
-    id: "127-pistol", name: "12.7mm Pistol", load: 8, requirement: 5, category: "Guns",
+    id: "127-pistol", name: "12.7mm Pistol", load: 8, requirement: 5, category: "Guns", AmmoId: "127mmammo",
     properties: {
-      Ammo: "12.7mm, 7 rounds", AP: 5, Damage: "2d6 Ballistic", Range: "PER x5/x10", Crit: "20, +1d6",
+      Reload: "12.7mm, 7 rounds", AP: 5, Damage: "2d6 Ballistic", Range: "PER x5/x10", Crit: "20, +1d6",
       Kickback: "If you hold a this with one hand, both the short and long range are halved.",
       Semiautomatic: "If you spend AP to attack with this weapon directly after spending AP to attack with it on the same turn, you can make another attack without spending any AP."
     }
   },
   {
-    id: "45-auto-pistol", name: ".45 Auto Pistol", load: 6, requirement: 3, category: "Guns",
+    id: "45-auto-pistol", name: ".45 Auto Pistol", load: 6, requirement: 3, category: "Guns", AmmoId: "45ammo",
     properties: {
-      Ammo: ".45, 7 rounds", AP: 4, Damage: "1d10 Ballistic", Range: "PER x10/x16", Crit: "20, x3",
+      Reload: ".45, 7 rounds", AP: 4, Damage: "1d10 Ballistic", Range: "PER x10/x16", Crit: "20, x3",
       Kickback: "If you hold a this with one hand, both the short and long range are halved.",
       Semiautomatic: "If you spend AP to attack with this weapon directly after spending AP to attack with it on the same turn, you can make another attack without spending any AP."
     }
   },
   {
-    id: "9mm-submachine-gun", name: "9mm Submachine Gun", load: 6, requirement: 5, category: "Guns",
+    id: "9mm-submachine-gun", name: "9mm Submachine Gun", load: 6, requirement: 5, category: "Guns", AmmoId: "9mmammo",
     properties: {
-      Ammo: "9mm, 30 rounds", AP: 6, Damage: "1d4 Ballistic", Range: "PER x4/x8", Crit: "20, +1d4",
+      Reload: "9mm, 30 rounds", AP: 6, Damage: "1d4 Ballistic", Range: "PER x4/x8", Crit: "20, +1d4",
       Automatic: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
       AdditionalAttacks: 2,
       TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll.",
@@ -538,9 +539,9 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "10mm-submachine-gun", name: "10mm Submachine Gun", load: 8, requirement: 6, category: "Guns",
+    id: "10mm-submachine-gun", name: "10mm Submachine Gun", load: 8, requirement: 6, category: "Guns", AmmoId: "10mmammo",
     properties: {
-      Ammo: "10mm, 30 rounds", AP: 6, Damage: "1d6 Ballistic", Range: "PER x4/x8", Crit: "20, +1d6",
+      Reload: "10mm, 30 rounds", AP: 6, Damage: "1d6 Ballistic", Range: "PER x4/x8", Crit: "20, +1d6",
       Automatic: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
       AdditionalAttacks: 2,
       TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll.",
@@ -548,9 +549,9 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "tommy-gun", name: "Tommy Gun", load: 12, requirement: 6, category: "Guns",
+    id: "tommy-gun", name: "Tommy Gun", load: 12, requirement: 6, category: "Guns", AmmoId: "45ammo",
     properties: {
-      Ammo: ".45, 50 rounds", AP: 6, Damage: "1d6 Ballistic", Range: "PER x4/x7", Crit: "20, +1d6",
+      Reload: ".45, 50 rounds", AP: 6, Damage: "1d6 Ballistic", Range: "PER x4/x7", Crit: "20, +1d6",
       Automatic: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
       AdditionalAttacks: 4,
       TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll.",
@@ -559,9 +560,9 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "127mm-submachine-gun", name: "12.7mm Submachine Gun", load: 10, requirement: 6, category: "Guns",
+    id: "127mm-submachine-gun", name: "12.7mm Submachine Gun", load: 10, requirement: 6, category: "Guns", AmmoId: "127mmammo",
     properties: {
-      Ammo: "12.7mm, 21 rounds", AP: 6, Damage: "1d10 Ballistic", Range: "PER x5/x8", Crit: "20, +1d10",
+      Reload: "12.7mm, 21 rounds", AP: 6, Damage: "1d10 Ballistic", Range: "PER x5/x8", Crit: "20, +1d10",
       Automatic: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
       AdditionalAttacks: 5,
       TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll.",
@@ -571,24 +572,33 @@ const ITEM_DEFINITIONS = [
   {
     id: "syringer", name: "Syringer", load: 8, requirement: 2, category: "Guns",
     properties: {
-      Ammo: "Syringe, 1 round", AP: 5, Damage: "1 dmg Piercing", Range: "PER x3/x6", Crit: "20, deals damage to hit points.",
+      Reload: "Syringe, 1 round", AP: 5, Damage: "1 dmg Piercing", Range: "PER x3/x6", Crit: "20, deals damage to hit points.",
       Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
       Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
       QuickReload: "Reloading a weapon with this property costs 4 AP instead of 6."
     }
   },
   {
-    id: "varmint-rifle", name: "Varmint Rifle", load: 13, requirement: 4, category: "Guns",
+    id: "varmint-rifle", name: "Varmint Rifle", load: 13, requirement: 4, category: "Guns", AmmoId: "556ammo",
     properties: {
-      Ammo: "5.56mm, 5 rounds", AP: 6, Damage: "2d4 Ballistic", Range: "PER x8/x18", Crit: "20, +2d4",
+      Reload: "5.56mm, 5 rounds", AP: 6, Damage: "2d4 Ballistic", Range: "PER x8/x18", Crit: "20, +2d4",
       Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
       TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
     }
   },
   {
-    id: "trail-carbine", name: "Trail Carbine", load: 13, requirement: 4, category: "Guns",
+    id: "trail-carbine", name: "Trail Carbine", load: 13, requirement: 4, category: "Guns", AmmoId: "44ammo",
     properties: {
-      Ammo: ".44, 8 rounds", AP: 6, Damage: "2d8 Ballistic", Range: "PER x8/x18", Crit: "20, x2",
+      Reload: ".44, 8 rounds", AP: 6, Damage: "2d8 Ballistic", Range: "PER x8/x18", Crit: "20, x2",
+      Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
+      ManualReload: "When you reload a weapon with this property, you can choose how much AP you spend to reload but you must spend at least 3. You reload 1 round for every AP spent to reload.",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "cowboy-repeater", name: "Cowboy Repeater", load: 13, requirement: 4, category: "Guns", AmmoId: "357ammo",
+    properties: {
+      Reload: ".357, 7 rounds", AP: 5, Damage: "2d6 Ballistic", Range: "PER x8/x18", Crit: "20, x2",
       Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
       ManualReload: "When you reload a weapon with this property, you can choose how much AP you spend to reload but you must spend at least 3. You reload 1 round for every AP spent to reload.",
       TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
@@ -597,7 +607,7 @@ const ITEM_DEFINITIONS = [
   {
     id: "junk-jet", name: "Junk Jet", load: 18, requirement: 6, category: "Guns",
     properties: {
-      Ammo: "Junk, 5 rounds", AP: 6, Damage: "3d6 Bludgeoning or Piercing", Range: "PER x4/x10", Crit: "19, +3d6",
+      Reload: "Junk, 5 rounds", AP: 6, Damage: "3d6 Bludgeoning or Piercing", Range: "PER x4/x10", Crit: "19, +3d6",
       Breakable: "The weapon gains a level of decay when you roll a 3 or lower on an attack roll.",
       Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
       Unstable: "A weapon with this property gains a level of decay every five times you reload it instead of ten.",
@@ -605,17 +615,17 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "sniper-rifle", name: "Sniper Rifle", load: 16, requirement: 5, category: "Guns",
+    id: "sniper-rifle", name: "Sniper Rifle", load: 16, requirement: 5, category: "Guns", AmmoId: "308ammo",
     properties: {
-      Ammo: ".308, 6 rounds", AP: 6, Damage: "2d12 Ballistic", Range: "PER x10/x30", Crit: "20, x5",
+      Reload: ".308, 6 rounds", AP: 6, Damage: "2d12 Ballistic", Range: "PER x10/x30", Crit: "20, x5",
       Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
       TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
     }
   },
   {
-    id: "assault-rifle", name: "Assault Rifle", load: 14, requirement: 5, category: "Guns",
+    id: "assault-rifle", name: "Assault Rifle", load: 14, requirement: 5, category: "Guns", AmmoId: "5mmammo",
     properties: {
-      Ammo: "5mm, 24 rounds", AP: 6, Damage: "1d10 Ballistic", Range: "PER x8/x18", Crit: "20, +1d10",
+      Reload: "5mm, 24 rounds", AP: 6, Damage: "1d10 Ballistic", Range: "PER x8/x18", Crit: "20, +1d10",
       TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll.",
       QuickReload: "Reloading a weapon with this property costs 4 AP instead of 6.",
       AutomaticShot: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
@@ -627,9 +637,9 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "anti-material-rifle", name: "Anti-Material Rifle", load: 20, requirement: 7, category: "Guns",
+    id: "anti-material-rifle", name: "Anti-Material Rifle", load: 20, requirement: 7, category: "Guns", AmmoId: "50ammo",
     properties: {
-      Ammo: ".50, 6 rounds", AP: 6, Damage: "5d8 Ballistic", Range: "PER x16/x40", Crit: "20, x5",
+      Reload: ".50, 6 rounds", AP: 6, Damage: "5d8 Ballistic", Range: "PER x16/x40", Crit: "20, x5",
       Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
       Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
       TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
@@ -638,7 +648,7 @@ const ITEM_DEFINITIONS = [
   {
     id: "single-shotgun", name: "Single Shotgun", load: 11, requirement: 4, category: "Guns",
     properties: {
-      Ammo: "20 gauge, 1 round", AP: 4, Damage: "3d6 Ballistic", Range: "PER x3/x6", Crit: "20, +3d6",
+      Reload: "20 gauge, 1 round", AP: 4, Damage: "3d6 Ballistic", Range: "PER x3/x6", Crit: "20, +3d6",
       Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
       ManualReload: "When you reload a weapon with this property, you can choose how much AP you spend to reload but you must spend at least 3. You reload 1 round for every AP spent to reload.",
       Spread: "When you attack a target in the second range increment of a weapon that has this property, you also target each creature and object within 5 feet of the target",
@@ -646,9 +656,9 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "sawed-off-shotgun", name: "Sawed Off Shotgun", load: 8, requirement: 4, category: "Guns",
+    id: "sawed-off-shotgun", name: "Sawed Off Shotgun", load: 8, requirement: 4, category: "Guns", AmmoId: "12g-ammo",
     properties: {
-      Ammo: "12 gauge, 2 rounds", AP: 4, Damage: "2d10 Ballistic", Range: "PER x2/x4", Crit: "20, +4d10",
+      Reload: "12 gauge, 2 rounds", AP: 4, Damage: "2d10 Ballistic", Range: "PER x2/x4", Crit: "20, +4d10",
       Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
       Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
       ManualReload: "When you reload a weapon with this property, you can choose how much AP you spend to reload but you must spend at least 3. You reload 1 round for every AP spent to reload.",
@@ -658,9 +668,9 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "double-barrel-shotgun", name: "Double Barrel Shotgun", load: 12, requirement: 5, category: "Guns",
+    id: "double-barrel-shotgun", name: "Double Barrel Shotgun", load: 12, requirement: 5, category: "Guns", AmmoId: "12g-ammo",
     properties: {
-      Ammo: "12 gauge, 2 rounds", AP: 4, Damage: "2d10 Ballistic", Range: "PER x3/x6", Crit: "20, +3d10",
+      Reload: "12 gauge, 2 rounds", AP: 4, Damage: "2d10 Ballistic", Range: "PER x3/x6", Crit: "20, +3d10",
       Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
       ManualReload: "When you reload a weapon with this property, you can choose how much AP you spend to reload but you must spend at least 3. You reload 1 round for every AP spent to reload.",
       Spread: "When you attack a target in the second range increment of a weapon that has this property, you also target each creature and object within 5 feet of the target",
@@ -668,18 +678,18 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "combat-shotgun", name: "Combat Shotgun", load: 12, requirement: 5, category: "Guns",
+    id: "combat-shotgun", name: "Combat Shotgun", load: 12, requirement: 5, category: "Guns", AmmoId: "12g-ammo",
     properties: {
-      Ammo: "12 gauge, 8 rounds", AP: 4, Damage: "2d12 Ballistic", Range: "PER x4/x7", Crit: "20, +2d12",
+      Reload: "12 gauge, 8 rounds", AP: 4, Damage: "2d12 Ballistic", Range: "PER x4/x7", Crit: "20, +2d12",
       Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
       Spread: "When you attack a target in the second range increment of a weapon that has this property, you also target each creature and object within 5 feet of the target",
       TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
     }
   },
   {
-    id: "flamer", name: "Flamer", load: 60, requirement: 7, category: "Guns",
+    id: "flamer", name: "Flamer", load: 60, requirement: 7, category: "Guns", AmmoId: "Fuel",
     properties: {
-      Ammo: "Fuel, 5 rounds", AP: 6, Damage: "2d10 Fire", Range: "60ft. line,10 feet wide, or a 20 ft cone.", Crit: "-",
+      Reload: "Fuel, 5 rounds", AP: 6, Damage: "2d10 Fire", Range: "60ft. line,10 feet wide, or a 20 ft cone.", Crit: "-",
       AreaOfEffect: "When you attack with a weapon that has this property, you do not make an attack roll. Instead you use the required ammo and any creatures or objects in range take the weapon's damage when the attack hits. You do not add your Agility modifier to this damage.",
       Incendiary: "When you deal damage to a target creature's hit points, they gain the Burning condition. If an attack with a ranged weapon with this property misses, the projectile may land nearby and alight any flammable objects. Additionally, any flammable objects hit by a weapon with this property immediately burst into flames.",
       SlowReload: "Reloading a weapon with this property costs 8 AP instead of 6.",
@@ -687,9 +697,9 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "minigun", name: "Minigun", load: 90, requirement: 9, category: "Guns",
+    id: "minigun", name: "Minigun", load: 90, requirement: 9, category: "Guns", AmmoId: "5mmammo",
     properties: {
-      Ammo: "5mm, 120 rounds (uses 10 per attack)", AP: 6, Damage: "5d6 Ballistic", Range: "PER x15/x40", Crit: "20, +2d6",
+      Reload: "5mm, 120 rounds (uses 10 per attack)", AP: 6, Damage: "5d6 Ballistic", Range: "PER x15/x40", Crit: "20, +2d6",
       Automatic: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
       AdditionalAttacks: 2,
       Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
@@ -700,9 +710,9 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "fat-man", name: "Fat Man", load: 30, requirement: 5, category: "Guns",
+    id: "fat-man", name: "Fat Man", load: 30, requirement: 5, category: "Guns", AmmoId: "Mini-nuke",
     properties: {
-      Ammo: "Mini Nuke, 1 round", AP: 6, Damage: "12d10 Explosive, 30ft radius and 2 levels of radiation in a 60ft radius", Range: "120 feet", Crit: "-",
+      Reload: "Mini Nuke, 1 round", AP: 6, Damage: "12d10 Explosive, 30ft radius and 2 levels of radiation in a 60ft radius", Range: "120 feet", Crit: "-",
       AreaOfEffect: "When you attack with a weapon that has this property, you do not make an attack roll. Instead you use the required ammo and any creatures or objects in range take the weapon's damage when the attack hits. You do not add your Agility modifier to this damage.",
       Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
       Durable: "A weapon with this property does not gain decay from attack rolls.",
@@ -711,9 +721,9 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "missile-launcher", name: "Missile Launcher", load: 50, requirement: 7, category: "Guns",
+    id: "missile-launcher", name: "Missile Launcher", load: 50, requirement: 7, category: "Guns", AmmoId: "Missile",
     properties: {
-      Ammo: "Missile, 1 round", AP: 6, Damage: "10d6 Explosive, 10ft radius", Range: "x10/x40", Crit: "-",
+      Reload: "Missile, 1 round", AP: 6, Damage: "10d6 Explosive, 10ft radius", Range: "x10/x40", Crit: "-",
       AreaOfEffect: "When you attack with a weapon that has this property, you do not make an attack roll. Instead you use the required ammo and any creatures or objects in range take the weapon's damage when the attack hits. You do not add your Agility modifier to this damage.",
       Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
       Durable: "A weapon with this property does not gain decay from attack rolls.",
@@ -723,50 +733,50 @@ const ITEM_DEFINITIONS = [
   },
   //energy
   {
-    id: "laser-pistol", name: "Laser Pistol", load: 5, requirement: 1, category: "Energy",
+    id: "laser-pistol", name: "Laser Pistol", load: 5, requirement: 1, category: "Energy", AmmoId: "ECammo",
     properties: {
-      Ammo: "1 Energy Cell, 30 rounds", AP: 4, Damage: "1d8 Laser + PER Mod", Range: "x10/x20", Crit: "20, x2, applies Burning condition.",
+      Reload: "1 Energy Cell, 30 rounds", AP: 4, Damage: "1d8 Laser + PER Mod", Range: "x10/x20", Crit: "20, x2, applies Burning condition.",
       SemiAutomatic: " If you spend AP to attack with this weapon directly after spending AP to attack with it on the same turn, you can make another attack without spending any AP."
     }
   },
   {
-    id: "laser-rifle", name: "Laser Rifle", load: 8, requirement: 2, category: "Energy",
+    id: "laser-rifle", name: "Laser Rifle", load: 8, requirement: 2, category: "Energy", AmmoId: "ECammo",
     properties: {
-      Ammo: "1 Energy Cell, 24 rounds", AP: 5, Damage: "2d6 Laser + PER Mod", Range: "x12/x24", Crit: "20, x2, applies Burning condition.",
+      Reload: "1 Energy Cell, 24 rounds", AP: 5, Damage: "2d6 Laser + PER Mod", Range: "x12/x24", Crit: "20, x2, applies Burning condition.",
       Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
       Unwieldy: "If you attack with a ranged weapon that has this property with only one hand, you have disadvantage on the attack roll."
     }
   },
   {
-    id: "tri-beam", name: "Tri-Beam Laser", load: 10, requirement: 2, category: "Energy",
+    id: "tri-beam", name: "Tri-Beam Laser", load: 10, requirement: 2, category: "Energy", AmmoId: "ECammo",
     properties: {
-      Ammo: "1 Energy Cell, 8 rounds", AP: 5, Damage: "3d6 Laser + PER Mod", Range: "x4/x8", Crit: "20, 5d6 Laser and applies Burning condition.",
+      Reload: "1 Energy Cell, 8 rounds", AP: 5, Damage: "3d6 Laser + PER Mod", Range: "x4/x8", Crit: "20, 5d6 Laser and applies Burning condition.",
       Spread: "When you attack a target in the second range increment of a weapon that has this property, you also target each creature and object within 5 feet of the target",
       Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
       Unwieldy: "If you attack with a ranged weapon that has this property with only one hand, you have disadvantage on the attack roll."
     }
   },
   {
-    id: "plasma-pistol", name: "Plasma Pistol", load: 4, requirement: 2, category: "Energy",
+    id: "plasma-pistol", name: "Plasma Pistol", load: 4, requirement: 2, category: "Energy", AmmoId: "MFammo",
     properties: {
-      Ammo: "1 Microfusion Cell, 16 rounds", AP: 5, Damage: "1d12 Plasma + PER Mod", Range: "x6/x10", Crit: "20, x3",
+      Reload: "1 Microfusion Cell, 16 rounds", AP: 5, Damage: "1d12 Plasma + PER Mod", Range: "x6/x10", Crit: "20, x3",
       Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
       Kickback: "If you hold a this with one hand, both the short and long range are halved."
     }
   },
   {
-    id: "plasma-rifle", name: "Plasma Rifle", load: 8, requirement: 3, category: "Energy",
+    id: "plasma-rifle", name: "Plasma Rifle", load: 8, requirement: 3, category: "Energy", AmmoId: "MFammo",
     properties: {
-      Ammo: "1 Microfusion Cell, 12 rounds", AP: 6, Damage: "2d8 Plasma + PER Mod", Range: "x8/x12", Crit: "20, x3",
+      Reload: "1 Microfusion Cell, 12 rounds", AP: 6, Damage: "2d8 Plasma + PER Mod", Range: "x8/x12", Crit: "20, x3",
       Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
       Debilitating: "When you deal damage to a creature's hit points from a targeted attack with a weapon that has this property, you roll twice on the conditions table and apply both conditions. If you roll the same condition twice, the effects stack.",
       Unwieldy: "If you attack with a ranged weapon that has this property with only one hand, you have disadvantage on the attack roll."
     }
   },
   {
-    id: "gauss-pistol", name: "Gauss Pistol", load: 14, requirement: 5, category: "Energy",
+    id: "gauss-pistol", name: "Gauss Pistol", load: 14, requirement: 5, category: "Energy", AmmoId: "2mmEC-ammo",
     properties: {
-      Ammo: "2mm EC, 12 rounds", AP: 3, Damage: "1d10 Ballistic + PER Mod", Range: "x8/x16", Crit: "20, +2d10",
+      Reload: "2mm EC, 12 rounds", AP: 3, Damage: "1d10 Ballistic + PER Mod", Range: "x8/x16", Crit: "20, +2d10",
       Charge: "When you spend action points to make an attack roll with a weapon that has this property, you can spend 3 additional AP to add one additional damage dice to the damage. Alternatively, you can spend 6 additional AP to add two additional damage dice. Whenever you charge a weapon, you add your modifier twice to the damage total instead of once.",
       Kickback: "If you hold a this with one hand, both the short and long range are halved.",
       Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
@@ -774,9 +784,9 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "gauss-rifle", name: "Gauss Rifle", load: 20, requirement: 5, category: "Energy",
+    id: "gauss-rifle", name: "Gauss Rifle", load: 20, requirement: 5, category: "Energy", AmmoId: "2mmEC-ammo",
     properties: {
-      Ammo: "2mm EC, 6 rounds", AP: 3, Damage: "1d12 Ballistic + PER Mod", Range: "x10/x20", Crit: "20, +4d12",
+      Reload: "2mm EC, 6 rounds", AP: 3, Damage: "1d12 Ballistic + PER Mod", Range: "x10/x20", Crit: "20, +4d12",
       Charge: "When you spend action points to make an attack roll with a weapon that has this property, you can spend 3 additional AP to add one additional damage dice to the damage. Alternatively, you can spend 6 additional AP to add two additional damage dice. Whenever you charge a weapon, you add your modifier twice to the damage total instead of once.",
       Kickback: "If you hold a this with one hand, both the short and long range are halved.",
       Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
@@ -785,9 +795,17 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "cryolator", name: "Cryolator", load: 20, requirement: 6, category: "Energy",
+    id: "gamma-gun", name: "Gamma Gun", load: 8, requirement: 2, category: "Energy", AmmoId: "Gamma-cell-ammo",
     properties: {
-      Ammo: "1 Cryocell, 3 rounds", AP: 5, Damage: "3d10 Cryo", Range: "20ft cone", Crit: "20, x2",
+      Reload: "1 Gammacell, 8 rounds", AP: 4, Damage: "1d12 Radiation + PER Mod", Range: "x6/x10", Crit: "20, +1d12",
+      Kickback: "If you hold a this with one hand, both the short and long range are halved.",
+      Radioactive: "When you deal damage to a target creature's hit points with a weapon that has this property, they must succeed a radiation check or take 1 level of rads."
+    }
+  },
+  {
+    id: "cryolator", name: "Cryolator", load: 20, requirement: 6, category: "Energy", AmmoId: "cryo-ammo",
+    properties: {
+      Reload: "1 Cryocell, 3 rounds", AP: 5, Damage: "3d10 Cryo", Range: "20ft cone", Crit: "20, x2",
       AreaOfEffect: "When you attack with a weapon that has this property, you do not make an attack roll. Instead you use the required ammo and any creatures or objects in range take the weapon's damage when the attack hits. You do not add your Agility modifier to this damage.",
       Freezing: "When a creature takes damage from a weapon with this property, they gain the Slowed condition until the end of their next turn.",
       SlowReload: "Reloading a weapon with this property costs 10 AP instead of 6. If you and another creature are within 5 feet of the weapon, you can instead spend 5 AP to reload the weapon so long as they spend 5 AP on their previous turn to help you. If your maximum AP is 9 or lower and you reload a weapon with this property and another creature is not helping you; you must spend all your AP, then you must spend any leftover AP on your next turn to reload the weapon",
@@ -795,9 +813,9 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "tesla-cannon", name: "Tesla Cannon", load: 12, requirement: 4, category: "Energy",
+    id: "tesla-cannon", name: "Tesla Cannon", load: 12, requirement: 4, category: "Energy", AmmoId: "MFammo",
     properties: {
-      Ammo: "1 Microfusion Cell, 5 rounds", AP: 3, Damage: "1d8 Electricity + PER Mod", Range: "30 feet", Crit: "20, 1d8 and applies Dazed condition.",
+      Reload: "1 Microfusion Cell, 5 rounds", AP: 3, Damage: "1d8 Electricity + PER Mod", Range: "30 feet", Crit: "20, 1d8 and applies Dazed condition.",
       Arc: "When you deal damage to a creature with a weapon that has this property, the energy leaps to another nearby creature. Each creature within 20 feet of the previously damaged creature takes the same damage. The energy leaps so long as there is a new target within 20 feet of the previous one.",
       Charge: "When you spend action points to make an attack roll with a weapon that has this property, you can spend 3 additional AP to add one additional damage dice to the damage. Alternatively, you can spend 6 additional AP to add two additional damage dice. Whenever you charge a weapon, you add your modifier twice to the damage total instead of once.",
       Electromagnetic: "When a robot, synth, or creature made of inorganic material takes damage from a weapon with this property, the damage is doubled for them.",
@@ -805,9 +823,9 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "gatling-laser", name: "Gatling Laser", load: 50, requirement: 5, category: "Energy",
+    id: "gatling-laser", name: "Gatling Laser", load: 50, requirement: 5, category: "Energy", AmmoId: "Fusion-core",
     properties: {
-      Ammo: "1 Fusion Core, 100 rounds", AP: 6, Damage: "2d10 Laser + PER Mod", Range: "x30/x30", Crit: "20, +1d10 and applies Burning condition.",
+      Reload: "1 Fusion Core, 100 rounds", AP: 6, Damage: "2d10 Laser + PER Mod", Range: "x30/x30", Crit: "20, +1d10 and applies Burning condition.",
       Automatic: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
       AdditionalAttacks: 4,
       Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
@@ -948,11 +966,12 @@ const ITEM_DEFINITIONS = [
     properties: { AC: 10, DT: 10, HP: 10, Vulnerable: "ballistic, laser, plasma" }
   },
   {
-    id: "flare", name: "Flare", load: 1, requirement: 1, category: "Gear",
+    id: "flare", name: "Flare", load: 1, requirement: 1, category: "Ammo",
     description: "You can spend 6 AP on your turn to light this flare. This flare creates bright red light in a 30 foot radius and dim red light for an additional 30 feet. This light lasts for 1 hour.",
+    properties: { Quantity: 1 }
   },
   {
-    id: "flashlight", name: "Flashlight", load: 2, requirement: 1, category: "Gear",
+    id: "flashlight", name: "Flashlight", load: 2, requirement: 1, category: "Gear", AmmoId: "ECammo",
     description: "You can spend 1 AP while holding this flashlight to create bright light in a 20 foot cone and dim light for an additional 20 feet. The light lasts for 8 hours so long as you spend 6 AP to load an energy cell into the flashlight"
   },
   {
@@ -1099,7 +1118,7 @@ equal to their healing rate. */
     description: "This technological, pre-war wonder generates a modulating field that transmits the reflected light from one side of an object to the other. You can spend 3 AP to activate a stealth boy, once you activate you become invisible for 1 minute so long as you keep the stealth boy on your body. Once a stealth boy has been activated, it cannot be activated again."
   },
   {
-    id: "two-way-radio", name: "Two-Way Radio", load: 2, requirement: 1, category: "Misc",
+    id: "two-way-radio", name: "Two-Way Radio", load: 2, requirement: 1, category: "Misc", AmmoId: "ECammo",
     description: "These small militaristic devices allow for long range communication. The dual radios function so long as you spend 6 AP to load an energy cell into each one, in which they each last for a total of 100 activations. You can spend 3 AP to activate one of the radios, when you activate it; any sound made within 5 feet of the radio is transmitted to the other radio which can be heard out to a range of 5 feet. If both radios are activated simultaneously, neither emit any sound."
   },
   { id: "book", name: "Book", load: 1, requirement: 1, category: "Misc" },
@@ -1128,6 +1147,17 @@ export function categoryColor(category) {
 
 export function meetsItemRequirement(item, strength) {
   return strength >= item.requirement;
+}
+
+export function ammoBundleQuantity(item) {
+  const quantity = item?.properties?.Quantity;
+  return item?.category === "Ammo" && Number.isInteger(quantity) && quantity > 0 ? quantity : null;
+}
+
+export function compatibleAmmo(item, catalog = ITEMS) {
+  if (typeof item?.AmmoId !== "string") return null;
+  const ammo = catalog.find((candidate) => candidate.id === item.AmmoId);
+  return ammoBundleQuantity(ammo) ? ammo : null;
 }
 
 export function matchesItemSearch(item, searchTerm) {
