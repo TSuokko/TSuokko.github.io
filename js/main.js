@@ -1,6 +1,7 @@
 import {
   cellUsesBagSpace,
   cellWithinCapacity,
+  consumeAmmo,
   createInventory,
   cycleItemShape,
   flipItem,
@@ -14,8 +15,10 @@ import {
   removeItem,
   renameItem,
   rotateItem,
+  setItemDecay,
+  totalAmmo,
 } from "./inventory.js";
-import { categoryColor, ITEMS, matchesItemSearch, meetsItemRequirement } from "./items.js";
+import { ammoBundleQuantity, categoryColor, compatibleAmmo, ITEMS, matchesItemSearch, meetsItemRequirement } from "./items.js";
 import { createSaveData, MAX_CUSTOM_NAME_LENGTH, MAX_SAVE_BYTES, parseInventorySave, serializeInventory } from "./persistence.js";
 
 const STORAGE_KEY = "field-loadout.inventory.v1";
@@ -40,6 +43,8 @@ const elements = {
   shape: document.querySelector("#shape"),
   rename: document.querySelector("#rename"),
   description: document.querySelector("#description"),
+  decay: document.querySelector("#decay"),
+  ammo: document.querySelector("#ammo"),
   remove: document.querySelector("#remove"),
   dimensions: document.querySelector("#dimensions"),
   grid: document.querySelector("#inventory-grid"),
@@ -56,6 +61,22 @@ const elements = {
   descriptionText: document.querySelector("#description-text"),
   descriptionProperties: document.querySelector("#description-properties"),
   descriptionClose: document.querySelector("#description-close"),
+  decayDialog: document.querySelector("#decay-dialog"),
+  decayForm: document.querySelector("#decay-form"),
+  decayItemName: document.querySelector("#decay-item-name"),
+  decayMinus: document.querySelector("#decay-minus"),
+  decayPlus: document.querySelector("#decay-plus"),
+  decayOutput: document.querySelector("#decay-output"),
+  decayStatus: document.querySelector("#decay-status"),
+  decayCancel: document.querySelector("#decay-cancel"),
+  ammoDialog: document.querySelector("#ammo-dialog"),
+  ammoForm: document.querySelector("#ammo-form"),
+  ammoItemName: document.querySelector("#ammo-item-name"),
+  ammoTotal: document.querySelector("#ammo-total"),
+  ammoMinus: document.querySelector("#ammo-minus"),
+  ammoUsed: document.querySelector("#ammo-used"),
+  ammoPlus: document.querySelector("#ammo-plus"),
+  ammoCancel: document.querySelector("#ammo-cancel"),
 };
 
 let inventory = createInventory(3);
@@ -72,6 +93,7 @@ let preview = null;
 let pointerDrag = null;
 let suppressClickUntil = 0;
 let toastTimer = null;
+let decayDraft = 0;
 
 try {
   const storedSave = localStorage.getItem(STORAGE_KEY);
@@ -202,17 +224,31 @@ function placementElement(placement) {
   button.style.setProperty("--shape-columns", placement.width);
   button.style.setProperty("--shape-rows", placement.height);
   button.style.setProperty("--item-color", itemColor);
-  button.title = `${displayName}, Load ${item.load}, requires Strength ${item.requirement}`;
-  button.setAttribute("aria-label", `${displayName}, Load ${item.load}, requires Strength ${item.requirement}${requirementMet ? "" : ", requirement not met"}, at row ${placement.row + 1}, column ${placement.column + 1}`);
+  const decayStatus = placement.decay === 10 ? "Broken" : `Decay ${placement.decay}`;
+  const ammoStatus = placement.ammoQuantity === null ? "" : `, ${placement.ammoQuantity} rounds remaining`;
+  button.title = `${displayName}, Load ${item.load}, requires Strength ${item.requirement}, ${decayStatus}${ammoStatus}`;
+  button.setAttribute("aria-label", `${displayName}, Load ${item.load}, requires Strength ${item.requirement}${requirementMet ? "" : ", requirement not met"}, ${decayStatus}${ammoStatus}, at row ${placement.row + 1}, column ${placement.column + 1}`);
   if (selectedInstanceId === placement.instanceId) button.classList.add("selected");
   if (!requirementMet) button.classList.add("requirement-unmet");
+  if (placement.decay === 10) button.classList.add("broken");
   appendShapeCells(button, placement.cells);
   const name = document.createElement("span");
   name.className = "item-name";
   name.textContent = displayName;
   const load = document.createElement("small");
+  load.className = "item-load-label";
   load.textContent = item.load;
-  button.append(name, load);
+  const decay = document.createElement("span");
+  decay.className = "decay-badge";
+  decay.textContent = `D${placement.decay}`;
+  const ammo = document.createElement("span");
+  ammo.className = "ammo-badge";
+  ammo.textContent = placement.ammoQuantity;
+  ammo.hidden = placement.ammoQuantity === null || placement.ammoQuantity === ammoBundleQuantity(item);
+  const broken = document.createElement("span");
+  broken.className = "broken-label";
+  broken.textContent = "Broken";
+  button.append(name, load, decay, ammo, broken);
   return button;
 }
 
@@ -271,6 +307,8 @@ function renderSelection() {
   const item = placement ? catalogItem(placement.itemId) : catalogItem(selectedCatalogId);
   elements.remove.disabled = !placement;
   elements.rename.disabled = !placement;
+  elements.decay.disabled = !placement;
+  elements.ammo.disabled = !placement || !compatibleAmmo(item);
   elements.description.disabled = !item;
   elements.rotate.disabled = !item;
   elements.shape.disabled = !item || itemShapeCount(item.load) <= 1;
@@ -293,7 +331,25 @@ function renderSelection() {
   elements.footprint.style.setProperty("--preview-color", categoryColor(item.category));
   appendShapeCells(elements.footprint, footprint.cells);
   elements.selectionLabel.textContent = placement ? "Packed item" : "Ready to place";
-  elements.selectionSize.textContent = `${placement ? placementName(placement, item) : item.name} · ${footprint.width}×${footprint.height}`;
+  const decaySummary = placement ? ` · ${placement.decay === 10 ? "Broken" : `D${placement.decay}`}` : "";
+  elements.selectionSize.textContent = `${placement ? placementName(placement, item) : item.name} · ${footprint.width}×${footprint.height}${decaySummary}`;
+}
+
+function renderDecayDraft() {
+  elements.decayOutput.value = decayDraft;
+  elements.decayOutput.textContent = decayDraft;
+  elements.decayStatus.textContent = decayDraft === 10 ? "Broken" : "Operational";
+  elements.decayStatus.classList.toggle("broken", decayDraft === 10);
+  elements.decayMinus.disabled = decayDraft === 0;
+  elements.decayPlus.disabled = decayDraft === 10;
+}
+
+function syncAmmoStepper() {
+  const amount = Number(elements.ammoUsed.value);
+  const maximum = Number(elements.ammoUsed.max);
+  const validAmount = Number.isInteger(amount);
+  elements.ammoMinus.disabled = !validAmount || amount <= 1;
+  elements.ammoPlus.disabled = !validAmount || amount >= maximum;
 }
 
 function renderStatus() {
@@ -632,7 +688,15 @@ elements.description.addEventListener("click", () => {
   elements.descriptionRequirement.textContent = item.requirement;
   elements.descriptionText.textContent = item.description;
   elements.descriptionProperties.replaceChildren();
-  const properties = Object.entries(item.properties);
+  const properties = [
+    ...(placement ? [["Decay", placement.decay === 10 ? "10 · Broken" : `${placement.decay} / 10`]] : []),
+    ...(placement?.ammoQuantity !== null ? [["Remaining", placement.ammoQuantity]] : []),
+    ...(compatibleAmmo(item) ? [
+      ["Compatible Ammo", compatibleAmmo(item).name],
+      ["Ammo Available", totalAmmo(inventory, item.AmmoId)],
+    ] : []),
+    ...Object.entries(item.properties),
+  ];
   if (properties.length === 0) {
     const empty = document.createElement("p");
     empty.className = "description-empty";
@@ -651,6 +715,101 @@ elements.description.addEventListener("click", () => {
 });
 
 elements.descriptionClose.addEventListener("click", () => elements.descriptionDialog.close());
+
+elements.decay.addEventListener("click", () => {
+  const placement = selectedPlacement();
+  if (!placement) return;
+  const item = catalogItem(placement.itemId);
+  decayDraft = placement.decay;
+  elements.decayItemName.textContent = placementName(placement, item);
+  renderDecayDraft();
+  elements.decayDialog.showModal();
+});
+
+elements.decayMinus.addEventListener("click", () => {
+  decayDraft = Math.max(0, decayDraft - 1);
+  renderDecayDraft();
+});
+
+elements.decayPlus.addEventListener("click", () => {
+  decayDraft = Math.min(10, decayDraft + 1);
+  renderDecayDraft();
+});
+
+elements.decayCancel.addEventListener("click", () => elements.decayDialog.close("cancel"));
+
+elements.decayForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const placement = selectedPlacement();
+  if (!placement) {
+    elements.decayDialog.close();
+    return;
+  }
+
+  inventory = setItemDecay(inventory, placement.instanceId, decayDraft);
+  persistInventory();
+  elements.decayDialog.close("save");
+  renderAll();
+  announce(decayDraft === 10 ? "Item is Broken." : `Item Decay set to ${decayDraft}.`);
+});
+
+elements.ammo.addEventListener("click", () => {
+  const placement = selectedPlacement();
+  const item = placement ? catalogItem(placement.itemId) : null;
+  const ammo = compatibleAmmo(item);
+  if (!ammo) return;
+
+  const available = totalAmmo(inventory, ammo.id);
+  elements.ammoItemName.textContent = `${placementName(placement, item)} · ${ammo.name}`;
+  elements.ammoTotal.textContent = available;
+  elements.ammoUsed.value = available > 0 ? 1 : 0;
+  elements.ammoUsed.min = available > 0 ? 1 : 0;
+  elements.ammoUsed.max = available;
+  elements.ammoUsed.disabled = available === 0;
+  syncAmmoStepper();
+  elements.ammoForm.querySelector('[type="submit"]').disabled = available === 0;
+  elements.ammoDialog.showModal();
+  if (available > 0) {
+    elements.ammoUsed.focus();
+    elements.ammoUsed.select();
+  }
+});
+
+elements.ammoMinus.addEventListener("click", () => {
+  const amount = Number(elements.ammoUsed.value);
+  elements.ammoUsed.value = Math.max(1, Number.isInteger(amount) ? amount - 1 : 1);
+  syncAmmoStepper();
+});
+
+elements.ammoPlus.addEventListener("click", () => {
+  const amount = Number(elements.ammoUsed.value);
+  const maximum = Number(elements.ammoUsed.max);
+  elements.ammoUsed.value = Math.min(maximum, Number.isInteger(amount) ? amount + 1 : 1);
+  syncAmmoStepper();
+});
+
+elements.ammoUsed.addEventListener("input", syncAmmoStepper);
+
+elements.ammoCancel.addEventListener("click", () => elements.ammoDialog.close("cancel"));
+
+elements.ammoForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const placement = selectedPlacement();
+  const item = placement ? catalogItem(placement.itemId) : null;
+  const ammo = compatibleAmmo(item);
+  const amount = Number(elements.ammoUsed.value);
+  const next = ammo ? consumeAmmo(inventory, ammo.id, amount) : null;
+  if (!next) {
+    announce("Enter a whole number within the available ammo.", true);
+    return;
+  }
+
+  inventory = next;
+  persistInventory();
+  elements.ammoDialog.close("save");
+  renderAll();
+  announce(`${amount} ${amount === 1 ? "round" : "rounds"} used.`);
+});
 
 elements.renameCancel.addEventListener("click", () => elements.renameDialog.close("cancel"));
 

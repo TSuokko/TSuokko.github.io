@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { CATEGORY_COLORS, categoryColor, ITEMS, matchesItemSearch, meetsItemRequirement } from "../js/items.js";
+import { ammoBundleQuantity, CATEGORY_COLORS, categoryColor, compatibleAmmo, ITEMS, matchesItemSearch, meetsItemRequirement } from "../js/items.js";
 
 test("item search matches names and categories without case sensitivity", () => {
   const clothArmor = ITEMS.find((item) => item.id === "cloth-armor");
@@ -35,4 +35,13 @@ test("every catalog item exposes description and properties fields", () => {
   assert.equal(ITEMS.every((item) => typeof item.description === "string" && item.description.length > 0), true);
   assert.equal(ITEMS.every((item) => item.properties && typeof item.properties === "object"), true);
   assert.equal(Object.keys(ITEMS.find((item) => item.id === "knife").properties).length > 0, true);
+});
+
+test("Ammo bundle quantities and AmmoId links are valid", () => {
+  const ammoItems = ITEMS.filter((item) => item.category === "Ammo");
+  assert.equal(ammoItems.every((item) => Number.isInteger(ammoBundleQuantity(item))), true);
+  assert.equal(ITEMS.filter((item) => item.AmmoId).every((item) => compatibleAmmo(item)), true);
+  assert.equal(ammoBundleQuantity(ITEMS.find((item) => item.id === "9mmammo")), 10);
+  assert.equal(ammoBundleQuantity(ITEMS.find((item) => item.id === "ECammo")), 30);
+  assert.equal(ammoBundleQuantity(ITEMS.find((item) => item.id === "Missile")), 1);
 });

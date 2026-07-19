@@ -131,7 +131,7 @@ export function placementFits(inventory, candidate, ignoredInstanceId = null) {
   ));
 }
 
-export function placeItem(inventory, item, row, column, rotated = false, instanceId = crypto.randomUUID(), flipped = false, shapeIndex = 0, customName = null, activateBagSpace = true) {
+export function placeItem(inventory, item, row, column, rotated = false, instanceId = crypto.randomUUID(), flipped = false, shapeIndex = 0, customName = null, activateBagSpace = true, decay = 0, ammoQuantity = null) {
   const footprint = itemFootprint(item.load, rotated, flipped, shapeIndex);
   const candidate = {
     instanceId,
@@ -145,6 +145,12 @@ export function placeItem(inventory, item, row, column, rotated = false, instanc
     flipped,
     shapeIndex,
     customName,
+    decay,
+    ammoQuantity: ammoQuantity ?? (
+      item.category === "Ammo" && Number.isInteger(item.properties?.Quantity) && item.properties.Quantity > 0
+        ? item.properties.Quantity
+        : null
+    ),
   };
 
   if (!placementFits(inventory, candidate)) return null;
@@ -241,5 +247,54 @@ export function renameItem(inventory, instanceId, customName) {
     placements: inventory.placements.map((item) => (
       item.instanceId === instanceId ? { ...item, customName } : item
     )),
+  };
+}
+
+export function setItemDecay(inventory, instanceId, decay) {
+  if (!Number.isInteger(decay) || decay < 0 || decay > 10) return null;
+  const current = inventory.placements.find((item) => item.instanceId === instanceId);
+  if (!current) return null;
+
+  return {
+    ...inventory,
+    placements: inventory.placements.map((item) => (
+      item.instanceId === instanceId ? { ...item, decay } : item
+    )),
+  };
+}
+
+export function totalAmmo(inventory, ammoItemId) {
+  return inventory.placements.reduce((total, placement) => (
+    placement.itemId === ammoItemId && Number.isInteger(placement.ammoQuantity)
+      ? total + placement.ammoQuantity
+      : total
+  ), 0);
+}
+
+export function consumeAmmo(inventory, ammoItemId, amount) {
+  const available = totalAmmo(inventory, ammoItemId);
+  if (typeof ammoItemId !== "string" || !Number.isInteger(amount) || amount < 1 || amount > available) return null;
+
+  let remaining = amount;
+  const updates = new Map();
+  const matching = inventory.placements
+    .filter((placement) => placement.itemId === ammoItemId && Number.isInteger(placement.ammoQuantity))
+    .map((placement, index) => ({ placement, index }))
+    .sort((left, right) => left.placement.ammoQuantity - right.placement.ammoQuantity || left.index - right.index);
+
+  for (const { placement } of matching) {
+    if (remaining === 0) break;
+    const used = Math.min(placement.ammoQuantity, remaining);
+    updates.set(placement.instanceId, placement.ammoQuantity - used);
+    remaining -= used;
+  }
+
+  return {
+    ...inventory,
+    placements: inventory.placements
+      .filter((placement) => updates.get(placement.instanceId) !== 0)
+      .map((placement) => updates.has(placement.instanceId)
+        ? { ...placement, ammoQuantity: updates.get(placement.instanceId) }
+        : placement),
   };
 }

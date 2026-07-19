@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#242719">
     <meta name="description" content="A load-based spatial inventory minigame.">
     <title>Survival Loadout</title>
-    <link rel="stylesheet" href="./style.css?v=15">
+    <link rel="stylesheet" href="./style.css?v=18">
   </head>
   <body>
     <main class="app-shell">
@@ -74,6 +74,12 @@
             <button class="tool-button danger" id="remove" type="button" disabled title="Remove selected item">
               <span aria-hidden="true">×</span><span>Remove</span>
             </button>
+            <button class="tool-button" id="decay" type="button" disabled title="Set selected item Decay">
+              <span aria-hidden="true">⌁</span><span>Decay</span>
+            </button>
+            <button class="tool-button" id="ammo" type="button" disabled title="Count compatible ammo">
+              <span aria-hidden="true">▤</span><span>Ammo</span>
+            </button>
           </div>
         </aside>
 
@@ -109,6 +115,46 @@
       </form>
     </dialog>
 
+    <dialog class="item-dialog decay-dialog" id="decay-dialog" aria-labelledby="decay-title">
+      <form method="dialog" id="decay-form">
+        <p class="eyebrow">Item condition</p>
+        <h2 id="decay-title">Set Decay</h2>
+        <p class="decay-item-name" id="decay-item-name"></p>
+        <div class="decay-stepper">
+          <button class="tool-button" id="decay-minus" type="button" aria-label="Decrease Decay">−</button>
+          <output id="decay-output" aria-live="polite">0</output>
+          <button class="tool-button" id="decay-plus" type="button" aria-label="Increase Decay">+</button>
+        </div>
+        <strong class="decay-status" id="decay-status">Operational</strong>
+        <div class="dialog-actions">
+          <button class="tool-button" value="cancel" type="button" id="decay-cancel">Cancel</button>
+          <button class="tool-button" value="save" type="submit">Save</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog class="item-dialog ammo-dialog" id="ammo-dialog" aria-labelledby="ammo-title">
+      <form method="dialog" id="ammo-form">
+        <p class="eyebrow">Compatible ammunition</p>
+        <h2 id="ammo-title">Ammo Counter</h2>
+        <p class="ammo-item-name" id="ammo-item-name"></p>
+        <div class="ammo-total">
+          <span>Available</span>
+          <strong id="ammo-total">0</strong>
+        </div>
+        <label for="ammo-used">Rounds used</label>
+        <div class="ammo-stepper">
+          <button class="tool-button" id="ammo-minus" type="button" aria-label="Decrease rounds used">−</button>
+          <input id="ammo-used" name="ammoUsed" type="number" min="1" step="1" inputmode="numeric" required>
+          <button class="tool-button" id="ammo-plus" type="button" aria-label="Increase rounds used">+</button>
+        </div>
+        <div class="dialog-actions">
+          <button class="tool-button" value="cancel" type="button" id="ammo-cancel">Cancel</button>
+          <button class="tool-button" value="save" type="submit">Save</button>
+        </div>
+      </form>
+    </dialog>
+
     <dialog class="item-dialog description-dialog" id="description-dialog" aria-labelledby="description-title">
       <div class="description-content">
         <p class="eyebrow" id="description-category">Item information</p>
@@ -124,6 +170,6 @@
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <script type="module" src="./js/main.js?v=15"></script>
+    <script type="module" src="./js/main.js?v=18"></script>
   </body>
 </html>
