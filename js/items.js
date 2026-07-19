@@ -428,6 +428,7 @@ const ITEM_DEFINITIONS = [
   { id: "10mmammo", name: "10mm Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
   { id: "9mmammo", name: "9mm Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
   { id: "12g-ammo", name: "12 gauge Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
+  { id: "20g-ammo", name: "20 gauge Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 }},
   { id: "127mmammo", name: "12.7mm Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
   { id: "556ammo", name: "5.56mm Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
   { id: "Flareammo", name: "Flare Ammo 10x", load: 1, requirement: 1, category: "Ammo", properties: { Quantity: 10 } },
@@ -646,7 +647,7 @@ const ITEM_DEFINITIONS = [
     }
   },
   {
-    id: "single-shotgun", name: "Single Shotgun", load: 11, requirement: 4, category: "Guns",
+    id: "single-shotgun", name: "Single Shotgun", load: 11, requirement: 4, category: "Guns", AmmoId: "20g-ammo",
     properties: {
       Reload: "20 gauge, 1 round", AP: 4, Damage: "3d6 Ballistic", Range: "PER x3/x6", Crit: "20, +3d6",
       Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
