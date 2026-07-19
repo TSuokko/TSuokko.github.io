@@ -441,30 +441,241 @@ const ITEM_DEFINITIONS = [
   { id: "Missile", name: "Missile", load: 10, requirement: 1, category: "Ammo" },
   //guns
   {
-    id: "9mm-pistol", name: "9mm Pistol", load: 5, requirement: 3, category: "Guns",
-    properties: { Ammo: "9mm", AP: 5, Damage: "1d6 Ballistic", Range: "x8/x12", Crit: "20, +1d6", Reload: 13, Kickback: "If you hold a this with one hand, both the short and long range are halved." }
+    id: "flare-gun", name: "Flare Gun", load: 3, requirement: 1, category: "Guns",
+    properties: {
+      Ammo: "Flare, 1 round", AP: 4, Damage: "1d4 Fire", Range: "PER x4/x10", Crit: "20, +1d4",
+      Incendiary: "When you deal damage to a target creature's hit points, they gain the Burning condition. If an attack with a ranged weapon with this property misses, the projectile may land nearby and alight any flammable objects. Additionally, any flammable objects hit by a weapon with this property immediately burst into flames.",
+      QuickReload: "Reloading a weapon with this property costs 4 AP instead of 6."
+    }
   },
-  { id: "10mm-pistol", name: "10mm Pistol", load: 6, requirement: 4, category: "Guns" },
-  { id: "pipe-pistol", name: "Pipe Pistol", load: 6, requirement: 3, category: "Guns" },
-  { id: "acid-soaker", name: "Acid Soaker", load: 5, requirement: 1, category: "Guns" },
-  { id: "flare-gun", name: "Flare Gun", load: 3, requirement: 1, category: "Guns" },
-  { id: "5-56mm-pistol", name: "5.56mm Pistol", load: 7, requirement: 5, category: "Guns" },
-  { id: "pipe-revolver", name: "Pipe Revolver", load: 5, requirement: 4, category: "Guns" },
-  { id: "357-revolver", name: ".357 Revolver", load: 4, requirement: 4, category: "Guns" },
-  { id: "44-magnum", name: ".44 Magnum", load: 5, requirement: 4, category: "Guns" },
-  { id: "127-pistol", name: "12.7mm Pistol", load: 8, requirement: 5, category: "Guns" },
-  { id: "9mm-submachine-gun", name: "9mm Submachine Gun", load: 6, requirement: 5, category: "Guns" },
-  { id: "10mm-submachine-gun", name: "10mm Submachine Gun", load: 8, requirement: 6, category: "Guns" },
-  { id: "tommy-gun", name: "Tommy Gun", load: 12, requirement: 6, category: "Guns" },
-  { id: "syringer", name: "Syringer", load: 8, requirement: 2, category: "Guns" },
-  { id: "varmint-rifle", name: "Varmint Rifle", load: 13, requirement: 4, category: "Guns" },
-  { id: "trail-carbine", name: "Trail Carbine", load: 13, requirement: 4, category: "Guns" },
-  { id: "sniper-rifle", name: "Sniper Rifle", load: 16, requirement: 5, category: "Guns" },
-  { id: "assault-rifle", name: "Assault Rifle", load: 14, requirement: 5, category: "Guns" },
-  { id: "single-shotgun", name: "Single Shotgun", load: 11, requirement: 4, category: "Guns" },
-  { id: "sawed-off-shotgun", name: "Sawed Off Shotgun", load: 8, requirement: 4, category: "Guns" },
-  { id: "double-barrel-shotgun", name: "Double Barrel Shotgun", load: 12, requirement: 5, category: "Guns" },
-  { id: "combat-shotgun", name: "Combat Shotgun", load: 12, requirement: 5, category: "Guns" },
+  {
+    id: "acid-soaker", name: "Acid Soaker", load: 5, requirement: 1, category: "Guns",
+    properties: {
+      Ammo: "Acid, 20 rounds", AP: 4, Damage: "1 Acid", Range: "30 ft.", Crit: "20, +1d4",
+      Corrosive: "When you deal damage to a creature's hit points with a weapon that has this property, their armor gains one level of decay. If they have natural armor, their AC and DT decrease by 1 to a maximum of 3 until their hit points are returned to full. Power Armor is unaffected by this condition.",
+    }
+  },
+  {
+    id: "pipe-pistol", name: "Pipe Pistol", load: 6, requirement: 3, category: "Guns",
+    properties: {
+      Ammo: "9mm, 12 rounds", AP: 5, Damage: "1d4 Ballistic", Range: "PER x6/x10", Crit: "20, +1d4",
+      Kickback: "If you hold a this with one hand, both the short and long range are halved.",
+      Breakable: "The weapon gains a level of decay when you roll a 3 or lower on an attack roll.",
+      Semiautomatic: "If you spend AP to attack with this weapon directly after spending AP to attack with it on the same turn, you can make another attack without spending any AP."
+    }
+  },
+  {
+    id: "10mm-pistol", name: "10mm Pistol", load: 6, requirement: 4, category: "Guns",
+    properties: {
+      Ammo: "10mm, 12 rounds", AP: 5, Damage: "2d4 Ballistic", Range: "PER x8/x16", Crit: "19, +1d4",
+      Kickback: "If you hold a this with one hand, both the short and long range are halved.",
+      Sturdy: "The weapon does not decay if you throw it, and ignores the negative effects of the first 2 levels of decay."
+    }
+  },
+  {
+    id: "9mm-pistol", name: "9mm Pistol", load: 5, requirement: 3, category: "Guns",
+    properties: {
+      Ammo: "9mm, 13 rounds", AP: 5, Damage: "1d6 Ballistic", Range: "PER x8/x12", Crit: "20, +1d6",
+      Kickback: "If you hold a this with one hand, both the short and long range are halved."
+    }
+  },
+  {
+    id: "5-56mm-pistol", name: "5.56mm Pistol", load: 7, requirement: 5, category: "Guns",
+    properties: {
+      Ammo: "5.56mm, 5 rounds", AP: 4, Damage: "1d8 Ballistic", Range: "PER x5/x16", Crit: "20, x2",
+      Kickback: "If you hold a this with one hand, both the short and long range are halved.",
+      ManualReload: "Reloading a weapon with this property costs 6 AP instead of 4."
+    }
+  },
+  {
+    id: "pipe-revolver", name: "Pipe Revolver", load: 5, requirement: 4, category: "Guns",
+    properties: {
+      Ammo: ".44, 6 rounds", AP: 5, Damage: "1d6 Ballistic", Range: "PER x6/x10", Crit: "20, x2",
+      Breakable: "The weapon gains a level of decay when you roll a 3 or lower on an attack roll.",
+      ManualReload: "Reloading a weapon with this property costs 6 AP instead of 4."
+    }
+  },
+  {
+    id: "357-revolver", name: ".357 Revolver", load: 4, requirement: 4, category: "Guns",
+    properties: {
+      Ammo: ".357, 6 rounds", AP: 5, Damage: "1d8 Ballistic", Range: "PER x6/x18", Crit: "20, x3",
+      Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
+      ManualReload: "Reloading a weapon with this property costs 6 AP instead of 4."
+    }
+  },
+  {
+    id: "44-magnum", name: ".44 Magnum", load: 5, requirement: 4, category: "Guns",
+    properties: {
+      Ammo: ".44, 6 rounds", AP: 5, Damage: "2d8 Ballistic", Range: "PER x6/x14", Crit: "20, x3",
+      Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
+      ManualReload: "Reloading a weapon with this property costs 6 AP instead of 4."
+    }
+  },
+  {
+    id: "127-pistol", name: "12.7mm Pistol", load: 8, requirement: 5, category: "Guns",
+    properties: {
+      Ammo: "12.7mm, 7 rounds", AP: 5, Damage: "2d6 Ballistic", Range: "PER x5/x10", Crit: "20, +1d6",
+      Kickback: "If you hold a this with one hand, both the short and long range are halved.",
+      Semiautomatic: "If you spend AP to attack with this weapon directly after spending AP to attack with it on the same turn, you can make another attack without spending any AP."
+    }
+  },
+  {
+    id: "45-auto-pistol", name: ".45 Auto Pistol", load: 6, requirement: 3, category: "Guns",
+    properties: {
+      Ammo: ".45, 7 rounds", AP: 4, Damage: "1d10 Ballistic", Range: "PER x10/x16", Crit: "20, x3",
+      Kickback: "If you hold a this with one hand, both the short and long range are halved.",
+      Semiautomatic: "If you spend AP to attack with this weapon directly after spending AP to attack with it on the same turn, you can make another attack without spending any AP."
+    }
+  },
+  {
+    id: "9mm-submachine-gun", name: "9mm Submachine Gun", load: 6, requirement: 5, category: "Guns",
+    properties: {
+      Ammo: "9mm, 30 rounds", AP: 6, Damage: "1d4 Ballistic", Range: "PER x4/x8", Crit: "20, +1d4",
+      Automatic: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
+      AdditionalAttacks: 2,
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll.",
+      Unstable: "A weapon with this property gains a level of decay every five times you reload it instead of ten."
+    }
+  },
+  {
+    id: "10mm-submachine-gun", name: "10mm Submachine Gun", load: 8, requirement: 6, category: "Guns",
+    properties: {
+      Ammo: "10mm, 30 rounds", AP: 6, Damage: "1d6 Ballistic", Range: "PER x4/x8", Crit: "20, +1d6",
+      Automatic: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
+      AdditionalAttacks: 2,
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll.",
+      Unstable: "A weapon with this property gains a level of decay every five times you reload it instead of ten."
+    }
+  },
+  {
+    id: "tommy-gun", name: "Tommy Gun", load: 12, requirement: 6, category: "Guns",
+    properties: {
+      Ammo: ".45, 50 rounds", AP: 6, Damage: "1d6 Ballistic", Range: "PER x4/x7", Crit: "20, +1d6",
+      Automatic: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
+      AdditionalAttacks: 4,
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll.",
+      Unstable: "A weapon with this property gains a level of decay every five times you reload it instead of ten.",
+      QuickReload: "Reloading a weapon with this property costs 4 AP instead of 6."
+    }
+  },
+  {
+    id: "127mm-submachine-gun", name: "12.7mm Submachine Gun", load: 10, requirement: 6, category: "Guns",
+    properties: {
+      Ammo: "12.7mm, 21 rounds", AP: 6, Damage: "1d10 Ballistic", Range: "PER x5/x8", Crit: "20, +1d10",
+      Automatic: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
+      AdditionalAttacks: 5,
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll.",
+      Unstable: "A weapon with this property gains a level of decay every five times you reload it instead of ten."
+    }
+  },
+  {
+    id: "syringer", name: "Syringer", load: 8, requirement: 2, category: "Guns",
+    properties: {
+      Ammo: "Syringe, 1 round", AP: 5, Damage: "1 dmg Piercing", Range: "PER x3/x6", Crit: "20, deals damage to hit points.",
+      Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
+      Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
+      QuickReload: "Reloading a weapon with this property costs 4 AP instead of 6."
+    }
+  },
+  {
+    id: "varmint-rifle", name: "Varmint Rifle", load: 13, requirement: 4, category: "Guns",
+    properties: {
+      Ammo: "5.56mm, 5 rounds", AP: 6, Damage: "2d4 Ballistic", Range: "PER x8/x18", Crit: "20, +2d4",
+      Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "trail-carbine", name: "Trail Carbine", load: 13, requirement: 4, category: "Guns",
+    properties: {
+      Ammo: ".44, 8 rounds", AP: 6, Damage: "2d8 Ballistic", Range: "PER x8/x18", Crit: "20, x2",
+      Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
+      ManualReload: "When you reload a weapon with this property, you can choose how much AP you spend to reload but you must spend at least 3. You reload 1 round for every AP spent to reload.",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "junk-jet", name: "Junk Jet", load: 18, requirement: 6, category: "Guns",
+    properties: {
+      Ammo: "Junk, 5 rounds", AP: 6, Damage: "3d6 Bludgeoning or Piercing", Range: "PER x4/x10", Crit: "19, +3d6",
+      Breakable: "The weapon gains a level of decay when you roll a 3 or lower on an attack roll.",
+      Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
+      Unstable: "A weapon with this property gains a level of decay every five times you reload it instead of ten.",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "sniper-rifle", name: "Sniper Rifle", load: 16, requirement: 5, category: "Guns",
+    properties: {
+      Ammo: ".308, 6 rounds", AP: 6, Damage: "2d12 Ballistic", Range: "PER x10/x30", Crit: "20, x5",
+      Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "assault-rifle", name: "Assault Rifle", load: 14, requirement: 5, category: "Guns",
+    properties: {
+      Ammo: "5mm, 24 rounds", AP: 6, Damage: "1d10 Ballistic", Range: "PER x8/x18", Crit: "20, +1d10",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll.",
+      QuickReload: "Reloading a weapon with this property costs 4 AP instead of 6.",
+      AutomaticShot: "When you spend AP to attack, you can make a number of additional attacks without spending any additional AP, the target of these additional attacks must be within 10 feet of the previous target and you do not add your agility modifier to the damage of the additional attacks.",
+      AdditionalAttacks: 3,
+      Unstable: "A weapon with this property gains a level of decay every five times you reload it instead of ten.",
+      SingleShot: "The following properties activate (Accurate, Semi-Automatic) and Automatic Shot properties are disabled.",
+      Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
+      SemiAutomatic: "If you spend AP to attack with this weapon directly after spending AP to attack with it on the same turn, you can make another attack without spending any AP.",
+    }
+  },
+  {
+    id: "anti-material-rifle", name: "Anti-Material Rifle", load: 20, requirement: 7, category: "Guns",
+    properties: {
+      Ammo: ".50, 6 rounds", AP: 6, Damage: "5d8 Ballistic", Range: "PER x16/x40", Crit: "20, x5",
+      Accurate: "When you make a targeted attack roll with a weapon that has this property, you may choose the limb condition instead of rolling for it.",
+      Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "single-shotgun", name: "Single Shotgun", load: 11, requirement: 4, category: "Guns",
+    properties: {
+      Ammo: "20 gauge, 1 round", AP: 4, Damage: "3d6 Ballistic", Range: "PER x3/x6", Crit: "20, +3d6",
+      Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
+      ManualReload: "When you reload a weapon with this property, you can choose how much AP you spend to reload but you must spend at least 3. You reload 1 round for every AP spent to reload.",
+      Spread: "When you attack a target in the second range increment of a weapon that has this property, you also target each creature and object within 5 feet of the target",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "sawed-off-shotgun", name: "Sawed Off Shotgun", load: 8, requirement: 4, category: "Guns",
+    properties: {
+      Ammo: "12 gauge, 2 rounds", AP: 4, Damage: "2d10 Ballistic", Range: "PER x2/x4", Crit: "20, +4d10",
+      Destructive: "When you roll a 1 on the damage dice with an explosive that has this property, it is a 2 instead.",
+      Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
+      ManualReload: "When you reload a weapon with this property, you can choose how much AP you spend to reload but you must spend at least 3. You reload 1 round for every AP spent to reload.",
+      Spread: "When you attack a target in the second range increment of a weapon that has this property, you also target each creature and object within 5 feet of the target",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll.",
+      Unstable: "A weapon with this property gains a level of decay every five times you reload it instead of ten."
+    }
+  },
+  {
+    id: "double-barrel-shotgun", name: "Double Barrel Shotgun", load: 12, requirement: 5, category: "Guns",
+    properties: {
+      Ammo: "12 gauge, 2 rounds", AP: 4, Damage: "2d10 Ballistic", Range: "PER x3/x6", Crit: "20, +3d10",
+      Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
+      ManualReload: "When you reload a weapon with this property, you can choose how much AP you spend to reload but you must spend at least 3. You reload 1 round for every AP spent to reload.",
+      Spread: "When you attack a target in the second range increment of a weapon that has this property, you also target each creature and object within 5 feet of the target",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
+  {
+    id: "combat-shotgun", name: "Combat Shotgun", load: 12, requirement: 5, category: "Guns",
+    properties: {
+      Ammo: "12 gauge, 8 rounds", AP: 4, Damage: "2d12 Ballistic", Range: "PER x4/x7", Crit: "20, +2d12",
+      Powerful: "When you deal damage to a creature within 5 feet of you with a weapon that has this property, you deal extra damage equal to the crit damage.",
+      Spread: "When you attack a target in the second range increment of a weapon that has this property, you also target each creature and object within 5 feet of the target",
+      TwoHanded: "If you attack with only one hand, you have disadvantage on the attack roll unless you spend 2 additional AP to attack. Alternatively, if your Strength ability score is greater than Strength requirement by at least 3, you can wield this weapon with one hand without having disadvantage on the attack roll."
+    }
+  },
   { id: "flamer", name: "Flamer", load: 60, requirement: 7, category: "Guns" },
   { id: "minigun", name: "Minigun", load: 90, requirement: 9, category: "Guns" },
   { id: "fat-man", name: "Fat Man", load: 30, requirement: 5, category: "Guns" },
